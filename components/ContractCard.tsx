@@ -1,5 +1,5 @@
 import type { ContractRelease } from '@/lib/types'
-import { formatCurrency, formatDate, truncate, getContractStatusColour } from '@/lib/utils'
+import { formatCurrency, formatDate, truncate, getContractStatusColour, contractsFinderUrl } from '@/lib/utils'
 
 interface ContractCardProps {
   contract: ContractRelease
@@ -15,9 +15,14 @@ export default function ContractCard({ contract }: ContractCardProps) {
   const awardDate = contract.awards?.[0]?.date
 
   return (
-    <div className="stat-card group cursor-pointer">
+    <a
+      href={contractsFinderUrl(contract.ocid)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="stat-card group cursor-pointer block no-underline text-inherit"
+    >
       <div className="flex items-start justify-between gap-4 mb-3">
-        <h3 className="font-dm font-bold text-sm leading-tight flex-1">
+        <h3 className="font-dm font-bold text-sm leading-tight flex-1 group-hover:text-lfg-orange transition-colors">
           {truncate(contract.tender?.title || 'Untitled', 120)}
         </h3>
         <span
@@ -55,6 +60,6 @@ export default function ContractCard({ contract }: ContractCardProps) {
           <span>{formatDate(awardDate || contract.publishedDate)}</span>
         </div>
       </div>
-    </div>
+    </a>
   )
 }

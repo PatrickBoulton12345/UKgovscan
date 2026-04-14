@@ -48,9 +48,11 @@ function StatusBadge({ status }: { status: string }) {
 
 function ContractResult({ result }: { result: SearchResult }) {
   return (
-    <Link
+    <a
       href={result.url}
-      className="stat-card flex flex-col gap-2 hover:border-lfg-orange group"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="stat-card flex flex-col gap-2 hover:border-lfg-orange group block no-underline text-inherit"
       aria-label={`Contract: ${result.title}`}
     >
       <div className="flex items-start justify-between gap-4">
@@ -78,15 +80,17 @@ function ContractResult({ result }: { result: SearchResult }) {
           </span>
         )}
       </div>
-    </Link>
+    </a>
   )
 }
 
 function CompanyResult({ result }: { result: SearchResult }) {
   return (
-    <Link
+    <a
       href={result.url}
-      className="stat-card flex flex-col gap-2 hover:border-lfg-blue group"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="stat-card flex flex-col gap-2 hover:border-lfg-blue group block no-underline text-inherit"
       aria-label={`Company: ${result.title}`}
     >
       <div className="flex items-start justify-between gap-4">
@@ -116,7 +120,7 @@ function CompanyResult({ result }: { result: SearchResult }) {
           </span>
         )}
       </div>
-    </Link>
+    </a>
   )
 }
 

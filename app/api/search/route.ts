@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { searchContracts } from '@/lib/api/contracts-finder'
+import { contractsFinderUrl } from '@/lib/utils'
 import type { SearchResult } from '@/lib/types'
 
 export async function GET(request: NextRequest) {
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
         title: release.tender?.title || 'Untitled contract',
         subtitle: release.buyer?.name || 'Unknown buyer',
         value: value,
-        url: `/contracts?ocid=${release.ocid}`,
+        url: contractsFinderUrl(release.ocid),
         meta: {
           status: release.tender?.status || 'unknown',
           date: release.publishedDate,
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
             type: 'company',
             title: company.title,
             subtitle: company.address_snippet || '',
-            url: `/search?company=${company.company_number}`,
+            url: `https://find-and-update.company-information.service.gov.uk/company/${company.company_number}`,
             meta: {
               status: company.company_status,
               number: company.company_number,

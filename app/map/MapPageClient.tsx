@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import { useState, useMemo } from 'react'
 import type { ContractRelease } from '@/lib/types'
-import { formatCurrency, formatDate, truncate } from '@/lib/utils'
+import { formatCurrency, formatDate, truncate, contractsFinderUrl } from '@/lib/utils'
 import { geocodeLocality } from '@/lib/geocode'
 
 // Dynamically import the Leaflet component — never SSR'd
@@ -212,6 +212,15 @@ export default function MapPageClient({ contracts }: MapPageClientProps) {
                   {truncate(selectedContract.tender.description, 220)}
                 </p>
               )}
+
+              <a
+                href={contractsFinderUrl(selectedContract.ocid)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 block text-center btn-primary text-xs"
+              >
+                view on Contracts Finder →
+              </a>
             </div>
           )}
         </aside>

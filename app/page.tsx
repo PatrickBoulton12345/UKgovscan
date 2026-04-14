@@ -2,7 +2,7 @@ import Link from 'next/link'
 import StatsCard from '@/components/StatsCard'
 import SearchBar from '@/components/SearchBar'
 import { searchContracts } from '@/lib/api/contracts-finder'
-import { formatCurrency, formatDate, truncate } from '@/lib/utils'
+import { formatCurrency, formatDate, truncate, contractsFinderUrl } from '@/lib/utils'
 
 async function getHomepageData() {
   try {
@@ -154,7 +154,9 @@ export default async function HomePage() {
                   {recentAwards.releases.map((r) => (
                     <tr key={r.ocid}>
                       <td className="font-dm font-bold text-sm max-w-xs">
-                        {truncate(r.tender?.title || 'Untitled', 80)}
+                        <a href={contractsFinderUrl(r.ocid)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
+                          {truncate(r.tender?.title || 'Untitled', 80)}
+                        </a>
                       </td>
                       <td className="text-sm">{r.buyer?.name || '—'}</td>
                       <td className="text-sm">
@@ -204,7 +206,9 @@ export default async function HomePage() {
                   {recentTenders.releases.map((r) => (
                     <tr key={r.ocid}>
                       <td className="font-dm font-bold text-sm max-w-xs">
-                        {truncate(r.tender?.title || 'Untitled', 80)}
+                        <a href={contractsFinderUrl(r.ocid)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
+                          {truncate(r.tender?.title || 'Untitled', 80)}
+                        </a>
                       </td>
                       <td className="text-sm">{r.buyer?.name || '—'}</td>
                       <td className="text-sm font-bold text-lfg-orange">
