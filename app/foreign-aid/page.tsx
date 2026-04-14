@@ -1,0 +1,356 @@
+'use client'
+
+import { useState, useMemo } from 'react'
+import { formatCurrency } from '@/lib/utils'
+
+// ---------------------------------------------------------------------------
+// Top recipient countries — real FCDO/IATI data (project-level budgets)
+// ---------------------------------------------------------------------------
+const COUNTRIES = [
+  { name: 'Iraq', code: 'IQ', budget: 91_851_253, projects: 14 },
+  { name: 'Lebanon', code: 'LB', budget: 81_811_011, projects: 20 },
+  { name: 'Ukraine', code: 'UA', budget: 80_455_000, projects: 2 },
+  { name: 'Somalia', code: 'SO', budget: 78_436_600, projects: 6 },
+  { name: 'Afghanistan', code: 'AF', budget: 71_477_200, projects: 5 },
+  { name: 'Colombia', code: 'CO', budget: 62_978_552, projects: 64 },
+  { name: 'Syria', code: 'SY', budget: 59_682_854, projects: 13 },
+  { name: 'Libya', code: 'LY', budget: 53_487_200, projects: 1 },
+  { name: 'China', code: 'CN', budget: 52_493_310, projects: 389 },
+  { name: 'Tunisia', code: 'TN', budget: 49_419_212, projects: 15 },
+  { name: 'Mexico', code: 'MX', budget: 44_368_707, projects: 81 },
+  { name: 'Brazil', code: 'BR', budget: 42_922_412, projects: 60 },
+  { name: 'Jordan', code: 'JO', budget: 39_518_264, projects: 17 },
+  { name: 'Egypt', code: 'EG', budget: 38_703_900, projects: 1 },
+  { name: 'Yemen', code: 'YE', budget: 35_214_168, projects: 2 },
+  { name: 'Nigeria', code: 'NG', budget: 33_530_406, projects: 18 },
+  { name: 'Algeria', code: 'DZ', budget: 27_662_557, projects: 13 },
+  { name: 'Morocco', code: 'MA', budget: 23_970_879, projects: 22 },
+  { name: 'Myanmar', code: 'MM', budget: 22_689_930, projects: 25 },
+  { name: 'Pakistan', code: 'PK', budget: 20_080_046, projects: 19 },
+  { name: 'Turkey', code: 'TR', budget: 19_944_747, projects: 71 },
+  { name: 'Sri Lanka', code: 'LK', budget: 19_137_159, projects: 19 },
+  { name: 'India', code: 'IN', budget: 14_014_870, projects: 143 },
+  { name: 'Kenya', code: 'KE', budget: 13_200_000, projects: 35 },
+  { name: 'Ethiopia', code: 'ET', budget: 12_500_000, projects: 28 },
+]
+
+// ---------------------------------------------------------------------------
+// Spotlight: real aid projects that raise eyebrows
+// ---------------------------------------------------------------------------
+const SPOTLIGHT = [
+  {
+    title: 'Exposing Chinese Communist Party institutions to UK best practice on governance, policy making and service delivery',
+    country: 'China',
+    budget: 68_160,
+    tag: '£68k teaching governance to the CCP',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Prevention of Violence against Women and Girls through Football',
+    country: 'Global',
+    budget: 193_494,
+    tag: '£193k using football to prevent domestic violence',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'ARM: Strengthening UK-Armenia fashion ties in the framework of Yerevan Fashion Week',
+    country: 'Armenia',
+    budget: 34_877,
+    tag: '£35k of aid money on Fashion Week',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Support to Theatre for Change',
+    country: 'Global',
+    budget: 218_810,
+    tag: '£219k on theatre as international development',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Women in Central Bougainville trained in chocolate making and cocoa value addition',
+    country: 'Papua New Guinea',
+    budget: 10_000,
+    tag: '£10k teaching chocolate making in the Pacific',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Nature Park YUS Tree Kangaroo Conservation Coffee',
+    country: 'Papua New Guinea',
+    budget: 10_000,
+    tag: '£10k on tree kangaroo coffee',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Social Media Tracking for Ghana 2012 Elections',
+    country: 'Ghana',
+    budget: 24_570,
+    tag: '£25k monitoring Ghanaian tweets',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'ZEG Tbilisi Storytelling Festival',
+    country: 'Georgia',
+    budget: 19_710,
+    tag: '£20k of aid on a Georgian storytelling festival',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Inclusion through Football: Using soft power to promote UK values of diversity and inclusion',
+    country: 'Global',
+    budget: 2_535,
+    tag: '£2.5k — "soft power" via football',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Departmental Central Administrative Costs of ODA Programme',
+    country: 'Global',
+    budget: 47,
+    tag: '£47 — the UK\'s smallest foreign aid project',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Supporting China\'s strategic development of its technology and satellite industries to promote international innovation',
+    country: 'China',
+    budget: 0,
+    tag: 'UK aid helping China build its tech and satellite industries',
+    source: 'IATI / FCDO',
+  },
+  {
+    title: 'Fostering innovation and critical thinking through improved English proficiency among school children in Malaysia using poetry',
+    country: 'Malaysia',
+    budget: 12_712,
+    tag: '£13k teaching Malaysian children English through poetry',
+    source: 'IATI / FCDO',
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+export default function ForeignAidPage() {
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState<'budget' | 'projects' | 'name'>('budget')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+
+  const totalBudget = COUNTRIES.reduce((sum, c) => sum + c.budget, 0)
+  const totalProjects = COUNTRIES.reduce((sum, c) => sum + c.projects, 0)
+
+  function toggleSort(field: 'budget' | 'projects' | 'name') {
+    if (sortBy === field) {
+      setSortDir(sortDir === 'desc' ? 'asc' : 'desc')
+    } else {
+      setSortBy(field)
+      setSortDir(field === 'name' ? 'asc' : 'desc')
+    }
+  }
+
+  const filtered = useMemo(() => {
+    let list = COUNTRIES
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      list = list.filter((c) => c.name.toLowerCase().includes(q))
+    }
+    return [...list].sort((a, b) => {
+      const av = a[sortBy]
+      const bv = b[sortBy]
+      if (typeof av === 'string' && typeof bv === 'string') {
+        return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av)
+      }
+      return sortDir === 'asc'
+        ? (av as number) - (bv as number)
+        : (bv as number) - (av as number)
+    })
+  }, [search, sortBy, sortDir])
+
+  const maxBudget = COUNTRIES[0].budget
+
+  return (
+    <div>
+      <section className="page-header">
+        <div className="max-w-7xl mx-auto">
+          <h1>foreign aid</h1>
+          <p>
+            UK overseas development assistance by recipient country.
+            Data sourced from FCDO via the International Aid Transparency
+            Initiative (IATI).
+          </p>
+        </div>
+      </section>
+
+      <div className="brand-motif-thick" />
+
+      {/* Spotlight */}
+      <section className="bg-lfg-cream/40 border-b-2 border-lfg-black">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <h2 className="font-octarine text-2xl mb-1">you couldn&apos;t make it up</h2>
+          <p className="font-dm text-sm text-gray-500 mb-6">
+            Real UK aid projects. Real taxpayer money. All sourced from FCDO data published via IATI.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            {SPOTLIGHT.map((s, i) => (
+              <div
+                key={i}
+                className="stat-card border-l-4 border-l-lfg-orange group flex flex-col gap-2"
+              >
+                <p className="font-dm font-bold text-sm leading-tight">
+                  {s.title.length > 80 ? s.title.slice(0, 80) + '…' : s.title}
+                </p>
+                <p className="text-xs font-dm text-gray-400">{s.country}</p>
+                {s.budget > 0 && (
+                  <p className="font-octarine text-xl text-lfg-orange lowercase">
+                    {formatCurrency(s.budget)}
+                  </p>
+                )}
+                <p className="text-xs font-dm font-bold text-gray-600 mt-auto pt-2 border-t border-gray-100">
+                  {s.tag}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Country breakdown */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Summary */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div className="stat-card border-l-4 border-l-lfg-orange">
+            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              Countries
+            </p>
+            <p className="text-3xl font-octarine lowercase">{filtered.length}</p>
+          </div>
+          <div className="stat-card border-l-4 border-l-lfg-blue">
+            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              Total projects
+            </p>
+            <p className="text-3xl font-octarine lowercase">
+              {totalProjects.toLocaleString()}
+            </p>
+          </div>
+          <div className="stat-card border-l-4 border-l-lfg-yellow hidden md:block">
+            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              Total budgeted
+            </p>
+            <p className="text-3xl font-octarine lowercase">
+              {formatCurrency(totalBudget)}
+            </p>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div className="mb-6 max-w-md">
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search countries…"
+            className="w-full border-2 border-lfg-black px-4 py-3 font-dm text-sm focus:outline-none focus:border-lfg-orange placeholder-gray-400"
+          />
+        </div>
+
+        <h2 className="font-octarine text-2xl mb-4">by recipient country</h2>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th className="w-12">#</th>
+                <th>
+                  <button
+                    onClick={() => toggleSort('name')}
+                    className="flex items-center hover:text-lfg-orange transition-colors"
+                  >
+                    Country
+                    <span className="ml-1">
+                      {sortBy === 'name'
+                        ? sortDir === 'desc' ? '↓' : '↑'
+                        : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th>
+                  <button
+                    onClick={() => toggleSort('projects')}
+                    className="flex items-center hover:text-lfg-orange transition-colors"
+                  >
+                    Projects
+                    <span className="ml-1">
+                      {sortBy === 'projects'
+                        ? sortDir === 'desc' ? '↓' : '↑'
+                        : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th>
+                  <button
+                    onClick={() => toggleSort('budget')}
+                    className="flex items-center hover:text-lfg-orange transition-colors"
+                  >
+                    Total budget
+                    <span className="ml-1">
+                      {sortBy === 'budget'
+                        ? sortDir === 'desc' ? '↓' : '↑'
+                        : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th className="hidden md:table-cell w-64"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((c, i) => (
+                <tr key={c.code}>
+                  <td>
+                    <span
+                      className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold ${
+                        i < 3
+                          ? 'bg-lfg-orange text-white'
+                          : 'bg-gray-100 text-gray-600'
+                      }`}
+                    >
+                      {i + 1}
+                    </span>
+                  </td>
+                  <td className="font-dm font-bold">{c.name}</td>
+                  <td className="font-dm">{c.projects.toLocaleString()}</td>
+                  <td className="font-dm font-bold text-lfg-orange">
+                    {formatCurrency(c.budget)}
+                  </td>
+                  <td className="hidden md:table-cell">
+                    <div className="w-full bg-gray-100 h-3">
+                      <div
+                        className="bg-lfg-orange h-3 transition-all duration-300"
+                        style={{
+                          width: `${(c.budget / maxBudget) * 100}%`,
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-12 text-gray-400 font-dm">
+            No countries match your search.
+          </div>
+        )}
+
+        {/* Data source */}
+        <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">
+          <p className="text-xs text-gray-500 font-dm">
+            Data sourced from the International Aid Transparency Initiative
+            (IATI) datastore. Reporting organisation: Foreign, Commonwealth
+            &amp; Development Office (FCDO). Budget figures represent
+            project-level allocations and may differ from final disbursements.
+            Country totals exclude global/multi-country programmes.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
