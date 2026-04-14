@@ -25,63 +25,62 @@ interface Council {
   name: string
   region: Region
   type: CouncilType
-  population: string
 }
 
 const COUNCILS: Council[] = [
   // London Boroughs
-  { name: 'Barnet', region: 'London', type: 'London Borough', population: '395,000' },
-  { name: 'Camden', region: 'London', type: 'London Borough', population: '255,000' },
-  { name: 'Hackney', region: 'London', type: 'London Borough', population: '281,000' },
-  { name: 'Hammersmith and Fulham', region: 'London', type: 'London Borough', population: '185,000' },
-  { name: 'Islington', region: 'London', type: 'London Borough', population: '245,000' },
-  { name: 'Lambeth', region: 'London', type: 'London Borough', population: '317,000' },
-  { name: 'Southwark', region: 'London', type: 'London Borough', population: '307,000' },
-  { name: 'Tower Hamlets', region: 'London', type: 'London Borough', population: '310,000' },
+  { name: 'Barnet', region: 'London', type: 'London Borough' },
+  { name: 'Camden', region: 'London', type: 'London Borough' },
+  { name: 'Hackney', region: 'London', type: 'London Borough' },
+  { name: 'Hammersmith and Fulham', region: 'London', type: 'London Borough' },
+  { name: 'Islington', region: 'London', type: 'London Borough' },
+  { name: 'Lambeth', region: 'London', type: 'London Borough' },
+  { name: 'Southwark', region: 'London', type: 'London Borough' },
+  { name: 'Tower Hamlets', region: 'London', type: 'London Borough' },
 
   // Metropolitan
-  { name: 'Birmingham', region: 'West Midlands', type: 'Metropolitan', population: '1,145,000' },
-  { name: 'Leeds', region: 'Yorkshire', type: 'Metropolitan', population: '812,000' },
-  { name: 'Manchester', region: 'North West', type: 'Metropolitan', population: '553,000' },
-  { name: 'Liverpool', region: 'North West', type: 'Metropolitan', population: '496,800' },
-  { name: 'Sheffield', region: 'Yorkshire', type: 'Metropolitan', population: '584,000' },
-  { name: 'Bradford', region: 'Yorkshire', type: 'Metropolitan', population: '539,800' },
-  { name: 'Coventry', region: 'West Midlands', type: 'Metropolitan', population: '367,000' },
-  { name: 'Newcastle upon Tyne', region: 'North East', type: 'Metropolitan', population: '302,800' },
-  { name: 'Sunderland', region: 'North East', type: 'Metropolitan', population: '277,000' },
-  { name: 'Wirral', region: 'North West', type: 'Metropolitan', population: '320,800' },
+  { name: 'Birmingham', region: 'West Midlands', type: 'Metropolitan' },
+  { name: 'Leeds', region: 'Yorkshire', type: 'Metropolitan' },
+  { name: 'Manchester', region: 'North West', type: 'Metropolitan' },
+  { name: 'Liverpool', region: 'North West', type: 'Metropolitan' },
+  { name: 'Sheffield', region: 'Yorkshire', type: 'Metropolitan' },
+  { name: 'Bradford', region: 'Yorkshire', type: 'Metropolitan' },
+  { name: 'Coventry', region: 'West Midlands', type: 'Metropolitan' },
+  { name: 'Newcastle upon Tyne', region: 'North East', type: 'Metropolitan' },
+  { name: 'Sunderland', region: 'North East', type: 'Metropolitan' },
+  { name: 'Wirral', region: 'North West', type: 'Metropolitan' },
 
   // Unitary
-  { name: 'Bristol', region: 'South West', type: 'Unitary', population: '467,000' },
-  { name: 'Brighton and Hove', region: 'South East', type: 'Unitary', population: '277,000' },
-  { name: 'Milton Keynes', region: 'South East', type: 'Unitary', population: '270,000' },
-  { name: 'Reading', region: 'South East', type: 'Unitary', population: '163,000' },
-  { name: 'Plymouth', region: 'South West', type: 'Unitary', population: '262,000' },
-  { name: 'Derby', region: 'East Midlands', type: 'Unitary', population: '257,000' },
-  { name: 'Leicester', region: 'East Midlands', type: 'Unitary', population: '368,600' },
-  { name: 'Nottingham', region: 'East Midlands', type: 'Unitary', population: '322,000' },
-  { name: 'Peterborough', region: 'East', type: 'Unitary', population: '213,000' },
+  { name: 'Bristol', region: 'South West', type: 'Unitary' },
+  { name: 'Brighton and Hove', region: 'South East', type: 'Unitary' },
+  { name: 'Milton Keynes', region: 'South East', type: 'Unitary' },
+  { name: 'Reading', region: 'South East', type: 'Unitary' },
+  { name: 'Plymouth', region: 'South West', type: 'Unitary' },
+  { name: 'Derby', region: 'East Midlands', type: 'Unitary' },
+  { name: 'Leicester', region: 'East Midlands', type: 'Unitary' },
+  { name: 'Nottingham', region: 'East Midlands', type: 'Unitary' },
+  { name: 'Peterborough', region: 'East', type: 'Unitary' },
 
   // County
-  { name: 'Kent', region: 'South East', type: 'County', population: '1,797,000' },
-  { name: 'Essex', region: 'East', type: 'County', population: '1,478,000' },
-  { name: 'Hampshire', region: 'South East', type: 'County', population: '1,345,000' },
-  { name: 'Surrey', region: 'South East', type: 'County', population: '1,193,000' },
-  { name: 'Lancashire', region: 'North West', type: 'County', population: '1,200,000' },
-  { name: 'Suffolk', region: 'East', type: 'County', population: '756,000' },
-  { name: 'Oxfordshire', region: 'South East', type: 'County', population: '688,000' },
-  { name: 'Cambridgeshire', region: 'East', type: 'County', population: '656,000' },
-  { name: 'Gloucestershire', region: 'South West', type: 'County', population: '643,000' },
-  { name: 'Lincolnshire', region: 'East Midlands', type: 'County', population: '757,000' },
-  { name: 'Staffordshire', region: 'West Midlands', type: 'County', population: '881,000' },
-  { name: 'Norfolk', region: 'East', type: 'County', population: '906,000' },
+  { name: 'Kent', region: 'South East', type: 'County' },
+  { name: 'Essex', region: 'East', type: 'County' },
+  { name: 'Hampshire', region: 'South East', type: 'County' },
+  { name: 'Surrey', region: 'South East', type: 'County' },
+  { name: 'Lancashire', region: 'North West', type: 'County' },
+  { name: 'Suffolk', region: 'East', type: 'County' },
+  { name: 'Oxfordshire', region: 'South East', type: 'County' },
+  { name: 'Cambridgeshire', region: 'East', type: 'County' },
+  { name: 'Gloucestershire', region: 'South West', type: 'County' },
+  { name: 'Lincolnshire', region: 'East Midlands', type: 'County' },
+  { name: 'Staffordshire', region: 'West Midlands', type: 'County' },
+  { name: 'Norfolk', region: 'East', type: 'County' },
 
   // District
-  { name: 'Breckland', region: 'East', type: 'District', population: '136,000' },
-  { name: 'Cherwell', region: 'South East', type: 'District', population: '148,000' },
-  { name: 'Pendle', region: 'North West', type: 'District', population: '91,000' },
-  { name: 'South Cambridgeshire', region: 'East', type: 'District', population: '160,000' },
-  { name: 'Waverley', region: 'South East', type: 'District', population: '128,000' },
+  { name: 'Breckland', region: 'East', type: 'District' },
+  { name: 'Cherwell', region: 'South East', type: 'District' },
+  { name: 'Pendle', region: 'North West', type: 'District' },
+  { name: 'South Cambridgeshire', region: 'East', type: 'District' },
+  { name: 'Waverley', region: 'South East', type: 'District' },
 ]
 
 const REGIONS: Array<'All' | Region> = [
@@ -307,10 +306,9 @@ export default function CouncilsPage() {
                   </span>
                 </div>
 
-                {/* Region + population */}
-                <div className="flex items-center justify-between text-xs font-dm text-gray-500 mt-auto pt-2 border-t border-gray-100">
+                {/* Region */}
+                <div className="text-xs font-dm text-gray-500 mt-auto pt-2 border-t border-gray-100">
                   <span>{council.region}</span>
-                  <span className="tabular-nums">{council.population}</span>
                 </div>
               </Link>
             ))}

@@ -5,7 +5,6 @@ import { useState, useMemo } from 'react'
 interface Department {
   name: string
   description: string
-  recordsEstimate: string
   url: string
   accent: 'border-l-lfg-orange' | 'border-l-lfg-blue' | 'border-l-lfg-yellow'
 }
@@ -15,7 +14,7 @@ const DEPARTMENTS: Department[] = [
     name: 'Cabinet Office',
     description:
       'Supports the Prime Minister and Cabinet, coordinates government policy across Whitehall.',
-    recordsEstimate: '~4,000 records/yr',
+
     url: 'https://www.gov.uk/government/collections/spending-over-25-000',
     accent: 'border-l-lfg-orange',
   },
@@ -23,7 +22,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Education',
     description:
       'Responsible for children\'s services, education, and skills in England.',
-    recordsEstimate: '~12,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dfe-departmental-spending-over-25000',
     accent: 'border-l-lfg-blue',
   },
@@ -31,7 +29,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Environment, Food & Rural Affairs',
     description:
       'Covers environmental policy, food, farming, and rural communities.',
-    recordsEstimate: '~18,000 records/yr',
     url: 'https://www.gov.uk/government/collections/defra-and-its-agencies-spending-over-25-000',
     accent: 'border-l-lfg-yellow',
   },
@@ -39,7 +36,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Transport',
     description:
       'Transport policy and investment including roads, rail, and aviation.',
-    recordsEstimate: '~9,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dft-departmental-spending',
     accent: 'border-l-lfg-orange',
   },
@@ -47,7 +43,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department of Health and Social Care',
     description:
       'Leads health and social care policy, funding for NHS England and adult social care.',
-    recordsEstimate: '~15,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dhsc-departmental-spending',
     accent: 'border-l-lfg-blue',
   },
@@ -55,7 +50,6 @@ const DEPARTMENTS: Department[] = [
     name: 'HM Revenue & Customs',
     description:
       'Collects taxes and administers National Insurance, tax credits and Child Benefit.',
-    recordsEstimate: '~22,000 records/yr',
     url: 'https://www.gov.uk/government/collections/hmrc-spending-over-25-000',
     accent: 'border-l-lfg-yellow',
   },
@@ -63,7 +57,6 @@ const DEPARTMENTS: Department[] = [
     name: 'HM Treasury',
     description:
       'Maintains control over public spending, financial regulation and economic policy.',
-    recordsEstimate: '~3,500 records/yr',
     url: 'https://www.gov.uk/government/collections/hmt-departmental-spending',
     accent: 'border-l-lfg-orange',
   },
@@ -71,7 +64,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Home Office',
     description:
       'Immigration, security, and law and order. Sponsors the police and border agencies.',
-    recordsEstimate: '~11,000 records/yr',
     url: 'https://www.gov.uk/government/collections/home-office-spending-over-25-000',
     accent: 'border-l-lfg-blue',
   },
@@ -79,7 +71,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Ministry of Defence',
     description:
       'Protects UK interests and defence of the realm. One of the largest procurement buyers.',
-    recordsEstimate: '~60,000 records/yr',
     url: 'https://www.gov.uk/government/collections/mod-departmental-spending',
     accent: 'border-l-lfg-yellow',
   },
@@ -87,7 +78,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Ministry of Justice',
     description:
       'Courts, prisons, probation, and legal aid across England and Wales.',
-    recordsEstimate: '~20,000 records/yr',
     url: 'https://www.gov.uk/government/collections/moj-departmental-spending',
     accent: 'border-l-lfg-orange',
   },
@@ -95,7 +85,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Energy Security & Net Zero',
     description:
       'Ensures UK energy security and leads the transition to net zero emissions.',
-    recordsEstimate: '~5,000 records/yr',
     url: 'https://www.gov.uk/government/collections/spending-over-25-000',
     accent: 'border-l-lfg-blue',
   },
@@ -103,7 +92,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Science, Innovation & Technology',
     description:
       'Drives science, research, and technology policy including digital infrastructure.',
-    recordsEstimate: '~4,500 records/yr',
     url: 'https://www.gov.uk/government/collections/spending-over-25-000',
     accent: 'border-l-lfg-yellow',
   },
@@ -111,7 +99,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Business and Trade',
     description:
       'Supports business growth, trade policy, and UK investment promotion.',
-    recordsEstimate: '~7,000 records/yr',
     url: 'https://www.gov.uk/government/collections/spending-over-25-000',
     accent: 'border-l-lfg-orange',
   },
@@ -119,7 +106,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Work and Pensions',
     description:
       'Administers welfare, pensions, and child maintenance. One of the largest spending departments.',
-    recordsEstimate: '~45,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dwp-departmental-spending',
     accent: 'border-l-lfg-blue',
   },
@@ -127,7 +113,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Levelling Up, Housing and Communities',
     description:
       'Local government funding, housing, and regional regeneration across England.',
-    recordsEstimate: '~8,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dluhc-spending-over-25-000',
     accent: 'border-l-lfg-yellow',
   },
@@ -135,7 +120,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Foreign, Commonwealth & Development Office',
     description:
       'UK foreign policy and overseas development aid. Manages global diplomatic network.',
-    recordsEstimate: '~13,000 records/yr',
     url: 'https://www.gov.uk/government/collections/fcdo-spending-over-25-000',
     accent: 'border-l-lfg-orange',
   },
@@ -143,7 +127,6 @@ const DEPARTMENTS: Department[] = [
     name: 'NHS England',
     description:
       'Commissions health services across England. Largest healthcare purchaser in the world.',
-    recordsEstimate: '~85,000 records/yr',
     url: 'https://www.england.nhs.uk/about/equality/equality-hub/equality-standard/transparency-data/',
     accent: 'border-l-lfg-blue',
   },
@@ -151,7 +134,6 @@ const DEPARTMENTS: Department[] = [
     name: 'Department for Culture, Media & Sport',
     description:
       'Tourism, sport, arts, libraries, broadcasting, and the creative industries.',
-    recordsEstimate: '~3,000 records/yr',
     url: 'https://www.gov.uk/government/collections/dcms-spending-over-25-000',
     accent: 'border-l-lfg-yellow',
   },
@@ -203,9 +185,9 @@ export default function SpendingPage() {
             </div>
             <div className="flex-shrink-0">
               <div className="stat-card border-l-4 border-l-lfg-blue p-4 min-w-[180px]">
-                <p className="font-octarine text-3xl text-lfg-orange">£1.1tn</p>
+                <p className="font-octarine text-3xl text-lfg-orange">18</p>
                 <p className="text-xs font-dm text-gray-500 mt-1">
-                  annual government spending
+                  departments tracked
                 </p>
               </div>
             </div>
@@ -291,10 +273,7 @@ export default function SpendingPage() {
                 </p>
 
                 {/* Footer row */}
-                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                  <span className="text-xs font-dm text-gray-400 tabular-nums">
-                    {dept.recordsEstimate}
-                  </span>
+                <div className="pt-2 border-t border-gray-100 text-right">
                   <span
                     className="text-xs font-dm font-bold text-lfg-orange group-hover:underline"
                     aria-hidden="true"

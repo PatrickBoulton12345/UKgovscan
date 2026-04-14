@@ -50,21 +50,21 @@ export default async function HomePage() {
             accent="orange"
           />
           <StatsCard
-            label="Data sources"
-            value="10+"
-            sublabel="official government APIs"
+            label="Departments"
+            value="18"
+            sublabel="spending data linked"
             accent="blue"
           />
           <StatsCard
             label="Councils"
-            value="300+"
-            sublabel="local authorities"
+            value="45"
+            sublabel="local authorities listed"
             accent="yellow"
           />
           <StatsCard
-            label="Schools"
-            value="27,000+"
-            sublabel="across England"
+            label="Live APIs"
+            value="2"
+            sublabel="Contracts Finder + Companies House"
             accent="cream"
           />
         </div>
