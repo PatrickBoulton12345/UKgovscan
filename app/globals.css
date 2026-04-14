@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Octarine';
+  src: url('/fonts/Octarine-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Octarine-Light';
+  src: url('/fonts/Octarine-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    @apply font-dm text-lfg-black bg-white antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-octarine lowercase;
+  }
+}
+
+@layer components {
+  .brand-motif {
+    background: repeating-linear-gradient(
+      to right,
+      #FE5500 0px,
+      #FE5500 40%,
+      #79CAC4 40%,
+      #79CAC4 60%,
+      #EE9944 60%,
+      #EE9944 100%
+    );
+    height: 4px;
+  }
+
+  .brand-motif-thick {
+    background: repeating-linear-gradient(
+      to right,
+      #FE5500 0px,
+      #FE5500 40%,
+      #79CAC4 40%,
+      #79CAC4 60%,
+      #EE9944 60%,
+      #EE9944 100%
+    );
+    height: 8px;
+  }
+
+  .stat-card {
+    @apply bg-white border-2 border-lfg-black p-6 transition-all duration-200;
+  }
+
+  .stat-card:hover {
+    @apply shadow-[4px_4px_0_0_#FE5500];
+  }
+
+  .btn-primary {
+    @apply bg-lfg-orange text-white font-dm font-bold px-6 py-3
+           hover:bg-orange-600 transition-colors duration-200
+           border-2 border-lfg-black;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-lfg-black font-dm font-bold px-6 py-3
+           border-2 border-lfg-black hover:bg-lfg-cream
+           transition-colors duration-200;
+  }
+
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table th {
+    @apply bg-lfg-black text-white font-dm font-bold px-4 py-3 text-left;
+  }
+
+  .data-table td {
+    @apply px-4 py-3 border-b border-gray-200;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-lfg-cream/50;
+  }
+
+  .page-header {
+    @apply bg-lfg-black text-white py-12 px-6;
+  }
+
+  .page-header h1 {
+    @apply text-4xl md:text-5xl font-octarine mb-2;
+  }
+
+  .page-header p {
+    @apply text-gray-300 text-lg max-w-2xl;
+  }
+
+  .filter-pill {
+    @apply px-4 py-2 text-sm font-dm font-bold border-2 border-lfg-black
+           cursor-pointer transition-all duration-200;
+  }
+
+  .filter-pill-active {
+    @apply bg-lfg-orange text-white border-lfg-orange;
+  }
+
+  .filter-pill-inactive {
+    @apply bg-white text-lfg-black hover:bg-lfg-cream;
+  }
+}
