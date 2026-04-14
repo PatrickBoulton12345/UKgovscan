@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { useState, useMemo } from 'react'
 import type { ContractRelease } from '@/lib/types'
 import { formatCurrency, formatDate, truncate, contractsFinderUrl } from '@/lib/utils'
-import { geocodeLocality } from '@/lib/geocode'
+import { geocodeBuyer } from '@/lib/geocode'
 
 // Dynamically import the Leaflet component — never SSR'd
 const MapClient = dynamic(() => import('@/components/MapClient'), {
@@ -26,7 +26,7 @@ export default function MapPageClient({ contracts }: MapPageClientProps) {
   // Only keep contracts that have a geocodable buyer locality
   const plottableContracts = useMemo(
     () =>
-      contracts.filter((c) => geocodeLocality(c.buyer?.address?.locality) !== null),
+      contracts.filter((c) => geocodeBuyer(c.buyer?.name, c.buyer?.address?.locality) !== null),
     [contracts]
   )
 

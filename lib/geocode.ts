@@ -167,3 +167,81 @@ export function geocodeLocality(
   }
   return null
 }
+
+// Suffixes to strip from buyer names to extract a place name
+const BUYER_SUFFIXES = [
+  'city council',
+  'borough council',
+  'county council',
+  'district council',
+  'metropolitan borough council',
+  'council',
+  'nhs foundation trust',
+  'nhs trust',
+  'nhs',
+  'university hospitals',
+  'university hospital',
+  'clinical commissioning group',
+  'combined authority',
+  'fire and rescue service',
+  'fire & rescue service',
+  'police',
+  'limited',
+  'ltd',
+  'plc',
+]
+
+export function geocodeBuyer(
+  buyerName: string | undefined,
+  locality: string | undefined
+): [number, number] | null {
+  // Try locality first (rarely populated but most accurate)
+  const fromLocality = geocodeLocality(locality)
+  if (fromLocality) return fromLocality
+
+  if (!buyerName) return null
+
+  let name = buyerName.toLowerCase().trim()
+
+  // Handle "London Borough of X" pattern
+  const lbMatch = name.match(/london borough of\s+(.+)/)
+  if (lbMatch) return UK_CITIES['london'] ?? null
+
+  // Handle "Royal Borough of X" pattern
+  if (name.includes('royal borough')) return UK_CITIES['london'] ?? null
+
+  // Handle "University of X" pattern
+  const uniMatch = name.match(/university of\s+(.+)/)
+  if (uniMatch) {
+    const place = uniMatch[1].trim()
+    const result = geocodeLocality(place)
+    if (result) return result
+  }
+
+  // Strip known suffixes to extract the place name
+  for (const suffix of BUYER_SUFFIXES) {
+    if (name.endsWith(suffix)) {
+      name = name.slice(0, -suffix.length).trim()
+      break
+    }
+  }
+
+  // Remove leading "the" or "city of"
+  name = name.replace(/^the\s+/, '').replace(/^city of\s+/, '')
+
+  // Try the cleaned name
+  if (UK_CITIES[name]) return UK_CITIES[name]
+
+  // Try each word (for multi-word names like "Dorset County Hospital")
+  const words = name.split(/\s+/)
+  for (const word of words) {
+    if (word.length > 3 && UK_CITIES[word]) return UK_CITIES[word]
+  }
+
+  // Try partial matching
+  for (const [key, coords] of Object.entries(UK_CITIES)) {
+    if (name.includes(key) || key.includes(name)) return coords
+  }
+
+  return null
+}

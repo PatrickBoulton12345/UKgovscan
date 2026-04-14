@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import Link from 'next/link'
 
 type CouncilType =
   | 'County'
@@ -286,11 +285,11 @@ export default function CouncilsPage() {
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map((council, i) => (
-              <Link
+              <a
                 key={council.name}
-                href="#"
-                className={`stat-card border-l-4 ${ACCENTS[i % ACCENTS.length]} group flex flex-col gap-3 no-underline`}
-                aria-label={`${council.name} — ${council.type}, ${council.region}`}
+                href={`/contracts?keyword=${encodeURIComponent(council.name)}`}
+                className={`stat-card border-l-4 ${ACCENTS[i % ACCENTS.length]} group flex flex-col gap-3 no-underline text-inherit`}
+                aria-label={`${council.name} — view contracts`}
               >
                 {/* Name */}
                 <h3 className="font-octarine text-base leading-snug group-hover:text-lfg-orange transition-colors">
@@ -306,11 +305,14 @@ export default function CouncilsPage() {
                   </span>
                 </div>
 
-                {/* Region */}
-                <div className="text-xs font-dm text-gray-500 mt-auto pt-2 border-t border-gray-100">
+                {/* Region + action hint */}
+                <div className="flex items-center justify-between text-xs font-dm text-gray-500 mt-auto pt-2 border-t border-gray-100">
                   <span>{council.region}</span>
+                  <span className="text-lfg-orange font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                    view contracts →
+                  </span>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         ) : (

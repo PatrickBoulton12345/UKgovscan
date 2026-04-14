@@ -5,7 +5,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { ContractRelease } from '@/lib/types'
 import { formatCurrency, formatDate, truncate } from '@/lib/utils'
-import { geocodeLocality } from '@/lib/geocode'
+import { geocodeBuyer } from '@/lib/geocode'
 
 // Fix Leaflet's broken default icon paths in Next.js/webpack environments
 delete (L.Icon.Default.prototype as any)._getIconUrl
@@ -53,7 +53,7 @@ export default function MapClient({
 
   const plottable: PlottedContract[] = contracts.flatMap((c) => {
     const locality = c.buyer?.address?.locality
-    const coords = geocodeLocality(locality)
+    const coords = geocodeBuyer(c.buyer?.name, locality)
     if (!coords) return []
     return [{ contract: c, lat: coords[0], lng: coords[1] }]
   })
