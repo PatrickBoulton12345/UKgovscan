@@ -34,6 +34,13 @@ const PAGE_SIZE = 20
 // ---------------------------------------------------------------------------
 const SPOTLIGHT = [
   {
+    title: 'Increasing feedback through digitial advertising',
+    buyer: 'Care Quality Commission',
+    value: 232_800,
+    uuid: 'a2678bce-6596-48fd-8ea7-edb118b75e20',
+    tag: '£233k on "digitial" advertising — they misspelled digital',
+  },
+  {
     title: 'IT Hardware Software and Associate Consumables',
     buyer: 'Leicestershire Police',
     value: 110_000_000,
@@ -46,13 +53,6 @@ const SPOTLIGHT = [
     value: 512_892,
     uuid: 'fd4f3716-2a96-4bfc-9b9a-46601b8d79db',
     tag: 'Half a million on software described only as "non expense"',
-  },
-  {
-    title: 'Increasing feedback through digitial advertising',
-    buyer: 'Care Quality Commission',
-    value: 232_800,
-    uuid: 'a2678bce-6596-48fd-8ea7-edb118b75e20',
-    tag: '£233k on "digitial" advertising — they misspelled digital',
   },
   {
     title: 'IM Spport',
@@ -81,13 +81,6 @@ const SPOTLIGHT = [
     value: 100_000,
     uuid: 'cf0920bb-bd00-41ee-8b70-45d23508a0b0',
     tag: 'Pasted the entire project brief into the title field',
-  },
-  {
-    title: 'Carlton Colville to Paws for Thought, Sutton (4seater vehicle)',
-    buyer: 'Suffolk County Council Passenger Transport',
-    value: undefined,
-    uuid: '2ba57f07-79c3-4bff-a9a4-85271fa142e0',
-    tag: 'A government contract for a taxi to "Paws for Thought"',
   },
 ]
 
