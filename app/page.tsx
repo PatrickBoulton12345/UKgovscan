@@ -4,6 +4,8 @@ import SearchBar from '@/components/SearchBar'
 import { searchContracts } from '@/lib/api/contracts-finder'
 import { formatCurrency, formatDate, truncate, contractsFinderUrl } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 async function getHomepageData() {
   try {
     const [recentAwards, recentTenders] = await Promise.all([
