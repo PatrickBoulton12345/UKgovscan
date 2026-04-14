@@ -76,6 +76,27 @@ const SPOTLIGHT = [
     tag: '£28k to fill tree holes with tarmac',
   },
   {
+    title: 'SHX0167',
+    buyer: 'Southern Housing',
+    value: 206_949,
+    uuid: '208d7dd8-4500-43d8-99c6-07f542292eb8',
+    tag: '£207k contract — the entire title is a code. It\'s for Wrike licenses.',
+  },
+  {
+    title: 'A614/A6097',
+    buyer: 'Nottinghamshire County Council',
+    value: 194_858,
+    uuid: 'd615e7b9-3c8d-4180-b1ef-b6b8c21ed7a1',
+    tag: '£195k described in 7 characters. It\'s for traffic sensors.',
+  },
+  {
+    title: 'Green Doctor',
+    buyer: 'Bassetlaw District Council',
+    value: 57_120,
+    uuid: '97496dcc-4637-41fa-9c87-2328348b5d15',
+    tag: '£57k on a "Green Doctor" who visits tenants about damp and mould',
+  },
+  {
     title: 'Demand on health and care services is rising, creating pressure on services, waiting lists, delays in accessing care and financial pressure...',
     buyer: 'Surrey County Council',
     value: 100_000,
