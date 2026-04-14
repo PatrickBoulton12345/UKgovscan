@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import ContractCard from '@/components/ContractCard'
 import type { ContractRelease, ContractSearchResponse } from '@/lib/types'
-import { formatNumber } from '@/lib/utils'
+import { formatNumber, formatCurrency, contractsFinderUrl } from '@/lib/utils'
 
 // Wrap the main page in Suspense so useSearchParams() works correctly
 // with Next.js 14 App Router static generation
@@ -28,6 +28,68 @@ const STAGE_OPTIONS: { label: string; value: Stage }[] = [
 ]
 
 const PAGE_SIZE = 20
+
+// ---------------------------------------------------------------------------
+// Spotlight: real contracts that raise eyebrows
+// ---------------------------------------------------------------------------
+const SPOTLIGHT = [
+  {
+    title: 'IT Hardware Software and Associate Consumables',
+    buyer: 'Leicestershire Police',
+    value: 110_000_000,
+    uuid: '835830ec-4a78-4263-8409-8e441afedf86',
+    tag: '£110m on "consumables" for one police force',
+  },
+  {
+    title: 'DDaT25565 - Non expense Software',
+    buyer: 'UK Shared Business Services Limited',
+    value: 512_892,
+    uuid: 'fd4f3716-2a96-4bfc-9b9a-46601b8d79db',
+    tag: 'Half a million on software described only as "non expense"',
+  },
+  {
+    title: 'Increasing feedback through digitial advertising',
+    buyer: 'Care Quality Commission',
+    value: 232_800,
+    uuid: 'a2678bce-6596-48fd-8ea7-edb118b75e20',
+    tag: '£233k on "digitial" advertising — they misspelled digital',
+  },
+  {
+    title: 'IM Spport',
+    buyer: 'West Yorkshire Combined Authority',
+    value: 185_518,
+    uuid: 'beacc864-80af-45d2-a978-20443890485a',
+    tag: '£186k contract — can\'t spell "Support" in the title',
+  },
+  {
+    title: 'Weed spray treatments for the adopted Highway',
+    buyer: 'Nottingham City Council',
+    value: 65_914,
+    uuid: '10fcf0ab-a766-4305-9194-733b7704cbd8',
+    tag: '£66k to spray weeds on roads',
+  },
+  {
+    title: 'Tree pit remedial works - Remove existing material, level, resize and temporarily fill with asphalt',
+    buyer: 'Nottingham City Council',
+    value: 28_139,
+    uuid: '1dc04b57-b3f0-4f06-9e00-9988c7550748',
+    tag: '£28k to fill tree holes with tarmac',
+  },
+  {
+    title: 'Demand on health and care services is rising, creating pressure on services, waiting lists, delays in accessing care and financial pressure...',
+    buyer: 'Surrey County Council',
+    value: 100_000,
+    uuid: 'cf0920bb-bd00-41ee-8b70-45d23508a0b0',
+    tag: 'Pasted the entire project brief into the title field',
+  },
+  {
+    title: 'Carlton Colville to Paws for Thought, Sutton (4seater vehicle)',
+    buyer: 'Suffolk County Council Passenger Transport',
+    value: undefined,
+    uuid: '2ba57f07-79c3-4bff-a9a4-85271fa142e0',
+    tag: 'A government contract for a taxi to "Paws for Thought"',
+  },
+]
 
 // ---------------------------------------------------------------------------
 // Main page component (uses useSearchParams, must be inside Suspense)
@@ -180,6 +242,40 @@ function ContractsPageInner() {
       </section>
 
       <div className="brand-motif-thick" />
+
+      {/* ---- Spotlight: ridiculous contracts ---- */}
+      <section className="bg-lfg-cream/40 border-b-2 border-lfg-black">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <h2 className="font-octarine text-2xl mb-1">you couldn&apos;t make it up</h2>
+          <p className="font-dm text-sm text-gray-500 mb-6">
+            Real government contracts. Real public money. All sourced live from Contracts Finder.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            {SPOTLIGHT.map((s) => (
+              <a
+                key={s.uuid}
+                href={`https://www.contractsfinder.service.gov.uk/Notice/${s.uuid}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="stat-card border-l-4 border-l-lfg-orange group flex flex-col gap-2 no-underline text-inherit"
+              >
+                <p className="font-dm font-bold text-sm leading-tight group-hover:text-lfg-orange transition-colors">
+                  {s.title.length > 80 ? s.title.slice(0, 80) + '…' : s.title}
+                </p>
+                <p className="text-xs font-dm text-gray-400">{s.buyer}</p>
+                {s.value && (
+                  <p className="font-octarine text-xl text-lfg-orange lowercase">
+                    {formatCurrency(s.value)}
+                  </p>
+                )}
+                <p className="text-xs font-dm font-bold text-gray-600 mt-auto pt-2 border-t border-gray-100">
+                  {s.tag}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ---- Filters bar ---- */}
       <section className="border-b-2 border-lfg-black bg-lfg-cream/30">

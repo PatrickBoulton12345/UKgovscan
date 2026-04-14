@@ -178,34 +178,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="brand-motif my-8" />
-
-      {/* About Looking for Growth */}
-      <section className="max-w-4xl mx-auto px-6 py-12">
-        <h2 className="font-octarine text-3xl mb-6">about looking for growth</h2>
-        <div className="space-y-4 font-dm text-base leading-relaxed text-gray-700">
-          <p>
-            Looking for Growth is an independent UK media and research project
-            covering economic policy, public spending, and infrastructure. We
-            believe that holding government to account starts with making its data
-            legible to everyone — not just researchers and journalists with
-            specialist tools.
-          </p>
-          <p>
-            GovScan is one part of that mission. We build tools that turn
-            sprawling official datasets into something you can actually use.
-          </p>
-          <Link
-            href="https://lookingforgrowth.uk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block btn-primary mt-2"
-          >
-            visit lookingforgrowth.uk
-          </Link>
-        </div>
-      </section>
-
       {/* Bottom motif */}
       <div className="brand-motif-thick" />
     </div>
