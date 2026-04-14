@@ -43,9 +43,9 @@ export function slugify(str: string): string {
     .replace(/^-|-$/g, '')
 }
 
-export function contractsFinderUrl(ocid: string): string {
-  // OCID format: ocds-b5fd17-{uuid} → notice URL uses the UUID
-  const uuid = ocid.replace(/^ocds-b5fd17-/, '')
+export function contractsFinderUrl(releaseId: string): string {
+  // Release ID format: {uuid}-{numeric} → notice URL uses just the UUID part
+  const uuid = releaseId.split('-').slice(0, 5).join('-')
   return `https://www.contractsfinder.service.gov.uk/Notice/${uuid}`
 }
 

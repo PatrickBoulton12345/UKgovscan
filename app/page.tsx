@@ -156,7 +156,7 @@ export default async function HomePage() {
                   {recentAwards.releases.map((r) => (
                     <tr key={r.ocid}>
                       <td className="font-dm font-bold text-sm max-w-xs">
-                        <a href={contractsFinderUrl(r.ocid)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
+                        <a href={contractsFinderUrl(r.id)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
                           {truncate(r.tender?.title || 'Untitled', 80)}
                         </a>
                       </td>
@@ -208,7 +208,7 @@ export default async function HomePage() {
                   {recentTenders.releases.map((r) => (
                     <tr key={r.ocid}>
                       <td className="font-dm font-bold text-sm max-w-xs">
-                        <a href={contractsFinderUrl(r.ocid)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
+                        <a href={contractsFinderUrl(r.id)} target="_blank" rel="noopener noreferrer" className="hover:text-lfg-orange hover:underline">
                           {truncate(r.tender?.title || 'Untitled', 80)}
                         </a>
                       </td>

@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         title: release.tender?.title || 'Untitled contract',
         subtitle: release.buyer?.name || 'Unknown buyer',
         value: value,
-        url: contractsFinderUrl(release.ocid),
+        url: contractsFinderUrl(release.id),
         meta: {
           status: release.tender?.status || 'unknown',
           date: release.publishedDate,

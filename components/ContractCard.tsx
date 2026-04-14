@@ -16,7 +16,7 @@ export default function ContractCard({ contract }: ContractCardProps) {
 
   return (
     <a
-      href={contractsFinderUrl(contract.ocid)}
+      href={contractsFinderUrl(contract.id)}
       target="_blank"
       rel="noopener noreferrer"
       className="stat-card group cursor-pointer block no-underline text-inherit"

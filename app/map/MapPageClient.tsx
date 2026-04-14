@@ -214,7 +214,7 @@ export default function MapPageClient({ contracts }: MapPageClientProps) {
               )}
 
               <a
-                href={contractsFinderUrl(selectedContract.ocid)}
+                href={contractsFinderUrl(selectedContract.id)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 block text-center btn-primary text-xs"
