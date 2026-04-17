@@ -143,7 +143,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Total expenditure</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.expenditure)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">annual revenue expenditure</p>
-                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG Revenue Outturn 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/692ed8ac9c1eda2cdf03440b/RS_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RS 2024-25 (.ods) →</a>
                 </div>
               )}
 
@@ -152,7 +152,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Council tax</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.councilTax)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">annual council tax requirement</p>
-                  <a href="https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG CTR1 Table 9, 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/663a45b51834d96a0aa6d1d4/Table_9_24-25__revised_.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG CTR1 Table 9 (.ods) →</a>
                 </div>
               )}
 
@@ -161,7 +161,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Government grants</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.govGrants)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">RSG + specific grants</p>
-                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/692ed8ac9c1eda2cdf03440b/RS_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RS 2024-25 (.ods) →</a>
                 </div>
               )}
 
@@ -170,7 +170,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Business rates retained</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.businessRates)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">retained from rate retention scheme</p>
-                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/692ed8ac9c1eda2cdf03440b/RS_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RS 2024-25 (.ods) →</a>
                 </div>
               )}
 
@@ -181,7 +181,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 mt-2">
                     on-street + off-street (surplus: {council.finance.parkingSurplus ? formatCurrency(council.finance.parkingSurplus) : '—'})
                   </p>
-                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RO2 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/692ed8f69c1eda2cdf03440d/RO2_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RO2 2024-25 (.ods) →</a>
                 </div>
               )}
 
@@ -190,7 +190,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Fees, charges &amp; sales</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.feesCharges)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">planning, social care, licensing, leisure etc.</p>
-                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RSX 2024-25 →</a>
+                  <a href="https://assets.publishing.service.gov.uk/media/692ed8baa245b0985f0343e5/RSX_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RSX 2024-25 (.ods) →</a>
                 </div>
               )}
             </div>
