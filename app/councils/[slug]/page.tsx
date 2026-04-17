@@ -193,14 +193,6 @@ export default function CouncilDetailPage({
               )}
 
 
-              {council.finance.businessRates && (
-                <div className="stat-card border-l-4 border-l-lfg-orange">
-                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Business rates retained</p>
-                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.businessRates)}</p>
-                  <p className="text-sm font-dm text-gray-500 mt-2">retained from rate retention scheme</p>
-                  <a href="https://assets.publishing.service.gov.uk/media/692ed8ac9c1eda2cdf03440b/RS_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RS 2024-25 (.ods) →</a>
-                </div>
-              )}
 
               {council.finance.parkingIncome && (
                 <div className="stat-card border-l-4 border-l-lfg-blue">
