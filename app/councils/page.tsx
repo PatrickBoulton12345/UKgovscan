@@ -249,37 +249,38 @@ export default function CouncilsPage() {
                 className={`stat-card border-l-4 ${ACCENTS[i % ACCENTS.length]} group flex flex-col gap-2 no-underline text-inherit`}
                 aria-label={`${council.name} — view contracts`}
               >
-                <h3 className="font-octarine text-base leading-snug group-hover:text-lfg-orange transition-colors">
-                  {council.name.toLowerCase()}
-                </h3>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-octarine text-base leading-snug group-hover:text-lfg-orange transition-colors">
+                      {council.name.toLowerCase()}
+                    </h3>
+                    <span className={`inline-block mt-1 px-2 py-0.5 text-xs font-dm font-bold rounded-sm ${TYPE_BADGE[council.type]}`}>
+                      {council.type}
+                    </span>
+                    <p className="text-xs font-dm text-gray-400 mt-1">{council.region}</p>
+                  </div>
 
-                <span className={`inline-block px-2 py-0.5 text-xs font-dm font-bold rounded-sm w-fit ${TYPE_BADGE[council.type]}`}>
-                  {council.type}
-                </span>
+                  {council.flyTipping && (
+                    <div className="text-right shrink-0">
+                      <p className={`font-octarine text-3xl leading-none ${rateColour(council.flyTipping.rate)}`}>
+                        {council.flyTipping.rate.toFixed(1)}%
+                      </p>
+                      <p className="text-xs font-dm text-gray-400 mt-1">FPN rate</p>
+                    </div>
+                  )}
+                </div>
 
-                {/* Fly tipping FPN rate — big bold */}
                 {council.flyTipping ? (
-                  <div className="py-2">
-                    <p className={`font-octarine text-3xl leading-none ${rateColour(council.flyTipping.rate)}`}>
-                      {council.flyTipping.rate.toFixed(1)}%
-                    </p>
-                    <p className="text-xs font-dm text-gray-400 mt-1">
-                      of fly tipping incidents received a FPN
-                    </p>
-                    <p className="text-xs font-dm text-gray-300 mt-0.5">
-                      {council.flyTipping.fpns.toLocaleString()} FPNs from {council.flyTipping.incidents.toLocaleString()} incidents
-                    </p>
-                  </div>
+                  <p className="text-xs font-dm text-gray-300">
+                    {council.flyTipping.fpns.toLocaleString()} FPNs from {council.flyTipping.incidents.toLocaleString()} fly tipping incidents
+                  </p>
                 ) : (
-                  <div className="py-2">
-                    <p className="text-xs font-dm text-gray-300 italic">
-                      Fly tipping data not available (county level)
-                    </p>
-                  </div>
+                  <p className="text-xs font-dm text-gray-300 italic">
+                    Fly tipping data not available (county level)
+                  </p>
                 )}
 
-                <div className="flex items-center justify-between text-xs font-dm text-gray-500 mt-auto pt-2 border-t border-gray-100">
-                  <span>{council.region}</span>
+                <div className="flex items-center justify-end text-xs font-dm mt-auto pt-2 border-t border-gray-100">
                   <span className="text-lfg-orange font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                     view contracts →
                   </span>
