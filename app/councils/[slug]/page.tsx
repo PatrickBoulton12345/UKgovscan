@@ -181,6 +181,17 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 mt-2">
                     on-street + off-street (surplus: {council.finance.parkingSurplus ? formatCurrency(council.finance.parkingSurplus) : '—'})
                   </p>
+
+                  {council.finance.pcnIncome !== undefined && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <p className="text-xs font-dm font-bold text-gray-400 uppercase tracking-wider mb-1">of which</p>
+                      <p className="font-octarine text-2xl leading-none text-lfg-orange">
+                        {council.finance.pcnIncome > 0 ? formatCurrency(council.finance.pcnIncome) : '£0'}
+                      </p>
+                      <p className="text-xs font-dm text-gray-500 mt-1">from PCNs (parking fines)</p>
+                    </div>
+                  )}
+
                   <a href="https://assets.publishing.service.gov.uk/media/692ed8f69c1eda2cdf03440d/RO2_LA_Data_2024-25_data_by_LA.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG RO2 2024-25 (.ods) →</a>
                 </div>
               )}
