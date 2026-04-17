@@ -133,6 +133,42 @@ export default function CouncilDetailPage({
 
         </div>
 
+        {/* Debt */}
+        {council.finance?.totalDebt && (
+          <>
+            <h2 className="font-octarine text-2xl mt-10 mb-6">debt</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="stat-card border-l-4 border-l-red-500">
+                <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Total outstanding debt</p>
+                <p className="font-octarine text-5xl leading-none text-red-600">{formatCurrency(council.finance.totalDebt)}</p>
+                <p className="text-sm font-dm text-gray-500 mt-2">
+                  total borrowing as at 31 December 2025
+                </p>
+                <p className="text-sm font-dm text-gray-400 mt-1">
+                  PWLB loans, bank loans, bonds, and other sources
+                </p>
+                <a href="https://assets.publishing.service.gov.uk/media/69a967631f59a04b996e77ad/Q3_2025_26_Borrowing_and_Investment_Live_Table.ods" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">Download: MHCLG Borrowing Q3 2025-26 (.ods) →</a>
+              </div>
+              {council.finance.expenditure && (
+                <div className="stat-card border-l-4 border-l-red-300">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Debt to expenditure ratio</p>
+                  <p className="font-octarine text-5xl leading-none text-red-600">
+                    {((council.finance.totalDebt / council.finance.expenditure) * 100).toFixed(0)}%
+                  </p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">
+                    debt as a percentage of annual expenditure
+                  </p>
+                  <p className="text-sm font-dm text-gray-400 mt-1">
+                    {council.finance.totalDebt > council.finance.expenditure
+                      ? 'Debt exceeds one full year of spending'
+                      : `${(council.finance.totalDebt / council.finance.expenditure).toFixed(1)}x annual expenditure`}
+                  </p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
         {/* Income breakdown */}
         {council.finance && (council.finance.expenditure || council.finance.councilTax || council.finance.parkingIncome) && (
           <>
