@@ -179,7 +179,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Parking income</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.parkingIncome)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">
-                    on-street (col CZ) + off-street (col DG)
+                    on-street + off-street
                   </p>
                   <p className="text-sm font-dm text-gray-500 mt-1">
                     surplus: {council.finance.parkingSurplus ? formatCurrency(council.finance.parkingSurplus) : '—'}
