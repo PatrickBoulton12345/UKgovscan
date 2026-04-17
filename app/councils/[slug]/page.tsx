@@ -147,78 +147,77 @@ export default function CouncilDetailPage({
               </p>
               <div className="mt-3 pt-3 border-t border-gray-100">
                 <p className="text-xs font-dm text-gray-300">
-                  Councils can set FPN fines between £150 and £1,000.
-                  £400 is the government-recommended standard rate.
+                  Councils can set fines between £150–£1,000.
                   Actual revenue may differ.
                 </p>
               </div>
             </div>
           )}
-
-          {/* Council Expenditure — placeholder for DLUHC data */}
-          {council.finance?.expenditure ? (
-            <div className="stat-card border-l-4 border-l-lfg-orange">
-              <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">
-                Total expenditure
-              </p>
-              <p className="font-octarine text-4xl leading-none text-lfg-black">
-                {formatCurrency(council.finance.expenditure)}
-              </p>
-              <p className="text-sm font-dm text-gray-500 mt-2">
-                annual revenue expenditure
-              </p>
-              <div className="mt-3 pt-3 border-t border-gray-100">
-                <p className="text-xs font-dm text-gray-300">
-                  Source: MHCLG Revenue Outturn 2024-25
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="stat-card border-l-4 border-l-lfg-orange border-dashed">
-              <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">
-                Total expenditure
-              </p>
-              <p className="font-octarine text-2xl leading-none text-gray-300">
-                coming soon
-              </p>
-              <p className="text-sm font-dm text-gray-400 mt-2">
-                MHCLG revenue expenditure data
-              </p>
-            </div>
-          )}
-
-          {/* Council Tax Revenue — placeholder for DLUHC data */}
-          {council.finance?.councilTax ? (
-            <div className="stat-card border-l-4 border-l-lfg-blue">
-              <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">
-                Council tax revenue
-              </p>
-              <p className="font-octarine text-4xl leading-none text-lfg-black">
-                {formatCurrency(council.finance.councilTax)}
-              </p>
-              <p className="text-sm font-dm text-gray-500 mt-2">
-                annual council tax collected
-              </p>
-              <div className="mt-3 pt-3 border-t border-gray-100">
-                <p className="text-xs font-dm text-gray-300">
-                  Source: MHCLG CTR1 Table 9, 2024-25
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="stat-card border-l-4 border-l-lfg-blue border-dashed">
-              <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">
-                Council tax revenue
-              </p>
-              <p className="font-octarine text-2xl leading-none text-gray-300">
-                coming soon
-              </p>
-              <p className="text-sm font-dm text-gray-400 mt-2">
-                MHCLG council tax data
-              </p>
-            </div>
-          )}
         </div>
+
+        {/* Income breakdown */}
+        {council.finance && (council.finance.expenditure || council.finance.councilTax || council.finance.parkingIncome) && (
+          <>
+            <h2 className="font-octarine text-2xl mt-10 mb-6">income breakdown</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {council.finance.expenditure && (
+                <div className="stat-card border-l-4 border-l-lfg-orange">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Total expenditure</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.expenditure)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">annual revenue expenditure</p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG Revenue Outturn 2024-25</p>
+                </div>
+              )}
+
+              {council.finance.councilTax && (
+                <div className="stat-card border-l-4 border-l-lfg-blue">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Council tax</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.councilTax)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">annual council tax requirement</p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG CTR1 Table 9, 2024-25</p>
+                </div>
+              )}
+
+              {council.finance.govGrants && (
+                <div className="stat-card border-l-4 border-l-lfg-yellow">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Government grants</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.govGrants)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">RSG + specific grants</p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25</p>
+                </div>
+              )}
+
+              {council.finance.businessRates && (
+                <div className="stat-card border-l-4 border-l-lfg-orange">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Business rates retained</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.businessRates)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">retained from rate retention scheme</p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25</p>
+                </div>
+              )}
+
+              {council.finance.parkingIncome && (
+                <div className="stat-card border-l-4 border-l-lfg-blue">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Parking income</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.parkingIncome)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">
+                    on-street + off-street (surplus: {council.finance.parkingSurplus ? formatCurrency(council.finance.parkingSurplus) : '—'})
+                  </p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RO2 2024-25</p>
+                </div>
+              )}
+
+              {council.finance.feesCharges && (
+                <div className="stat-card border-l-4 border-l-lfg-yellow">
+                  <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Fees, charges &amp; sales</p>
+                  <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.feesCharges)}</p>
+                  <p className="text-sm font-dm text-gray-500 mt-2">planning, social care, licensing, leisure etc.</p>
+                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RSX 2024-25</p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
 
         {/* Quick links */}
         <div className="mt-8 flex flex-wrap gap-3">
