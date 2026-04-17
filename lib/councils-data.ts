@@ -53,14 +53,16 @@ function withSlugAndRevenue(
   }
 }
 
+// MHCLG Revenue Outturn 2024-25 (expenditure in £000s → ×1000)
+// MHCLG CTR1 Table 9 2024-25 (council tax requirement in £)
 export const COUNCILS: Council[] = [
   // London Boroughs
-  withSlugAndRevenue('Barnet', 'London', 'London Borough', { incidents: 6938, fpns: 409, rate: 5.90 }),
-  withSlugAndRevenue('Camden', 'London', 'London Borough', { incidents: 36216, fpns: 1169, rate: 3.23 }),
-  withSlugAndRevenue('Croydon', 'London', 'London Borough', { incidents: 53268, fpns: 23, rate: 0.04 }),
+  withSlugAndRevenue('Barnet', 'London', 'London Borough', { incidents: 6938, fpns: 409, rate: 5.90 }, { expenditure: 769_481_000, councilTax: 229_355_382 }),
+  withSlugAndRevenue('Camden', 'London', 'London Borough', { incidents: 36216, fpns: 1169, rate: 3.23 }, { expenditure: 663_527_000, councilTax: 141_130_750 }),
+  withSlugAndRevenue('Croydon', 'London', 'London Borough', { incidents: 53268, fpns: 23, rate: 0.04 }, { expenditure: 760_972_000, councilTax: 259_761_448 }),
   withSlugAndRevenue('Ealing', 'London', 'London Borough', { incidents: 25394, fpns: 2429, rate: 9.57 }),
   withSlugAndRevenue('Enfield', 'London', 'London Borough', { incidents: 9218, fpns: 4712, rate: 51.12 }),
-  withSlugAndRevenue('Hackney', 'London', 'London Borough', { incidents: 31042, fpns: 106, rate: 0.34 }),
+  withSlugAndRevenue('Hackney', 'London', 'London Borough', { incidents: 31042, fpns: 106, rate: 0.34 }, { expenditure: 780_108_000, councilTax: 109_337_928 }),
   withSlugAndRevenue('Hammersmith and Fulham', 'London', 'London Borough', { incidents: 8087, fpns: 2164, rate: 26.76 }),
   withSlugAndRevenue('Hounslow', 'London', 'London Borough', { incidents: 25177, fpns: 4, rate: 0.02 }),
   withSlugAndRevenue('Islington', 'London', 'London Borough', { incidents: 3330, fpns: 772, rate: 23.18 }),
@@ -76,27 +78,27 @@ export const COUNCILS: Council[] = [
   withSlugAndRevenue('Kensington and Chelsea', 'London', 'London Borough', { incidents: 7613, fpns: 2163, rate: 28.41 }),
 
   // Metropolitan
-  withSlugAndRevenue('Birmingham', 'West Midlands', 'Metropolitan', { incidents: 24664, fpns: 153, rate: 0.62 }),
-  withSlugAndRevenue('Leeds', 'Yorkshire', 'Metropolitan', { incidents: 13923, fpns: 83, rate: 0.60 }),
-  withSlugAndRevenue('Manchester', 'North West', 'Metropolitan', { incidents: 14963, fpns: 992, rate: 6.63 }),
-  withSlugAndRevenue('Liverpool', 'North West', 'Metropolitan', { incidents: 20300, fpns: 0, rate: 0.00 }),
-  withSlugAndRevenue('Sheffield', 'Yorkshire', 'Metropolitan', { incidents: 12237, fpns: 129, rate: 1.05 }),
+  withSlugAndRevenue('Birmingham', 'West Midlands', 'Metropolitan', { incidents: 24664, fpns: 153, rate: 0.62 }, { councilTax: 482_348_571 }), // expenditure suppressed — Section 114
+  withSlugAndRevenue('Leeds', 'Yorkshire', 'Metropolitan', { incidents: 13923, fpns: 83, rate: 0.60 }, { expenditure: 1_700_063_000, councilTax: 421_490_714 }),
+  withSlugAndRevenue('Manchester', 'North West', 'Metropolitan', { incidents: 14963, fpns: 992, rate: 6.63 }, { expenditure: 1_327_674_000, councilTax: 229_259_492 }),
+  withSlugAndRevenue('Liverpool', 'North West', 'Metropolitan', { incidents: 20300, fpns: 0, rate: 0.00 }, { expenditure: 1_345_120_000, councilTax: 235_103_456 }),
+  withSlugAndRevenue('Sheffield', 'Yorkshire', 'Metropolitan', { incidents: 12237, fpns: 129, rate: 1.05 }, { expenditure: 1_164_879_000, councilTax: 284_713_441 }),
   withSlugAndRevenue('Bradford', 'Yorkshire', 'Metropolitan', { incidents: 19697, fpns: 91, rate: 0.46 }),
-  withSlugAndRevenue('Coventry', 'West Midlands', 'Metropolitan', { incidents: 7188, fpns: 199, rate: 2.77 }),
-  withSlugAndRevenue('Newcastle upon Tyne', 'North East', 'Metropolitan', { incidents: 16731, fpns: 157, rate: 0.94 }),
-  withSlugAndRevenue('Sunderland', 'North East', 'Metropolitan', { incidents: 9481, fpns: 95, rate: 1.00 }),
+  withSlugAndRevenue('Coventry', 'West Midlands', 'Metropolitan', { incidents: 7188, fpns: 199, rate: 2.77 }, { expenditure: 686_129_000, councilTax: 175_897_581 }),
+  withSlugAndRevenue('Newcastle upon Tyne', 'North East', 'Metropolitan', { incidents: 16731, fpns: 157, rate: 0.94 }, { expenditure: 599_512_000, councilTax: 140_584_999 }),
+  withSlugAndRevenue('Sunderland', 'North East', 'Metropolitan', { incidents: 9481, fpns: 95, rate: 1.00 }, { expenditure: 551_071_000, councilTax: 128_086_782 }),
   withSlugAndRevenue('Wirral', 'North West', 'Metropolitan', { incidents: 7977, fpns: 0, rate: 0.00 }),
   withSlugAndRevenue('Sandwell', 'West Midlands', 'Metropolitan', { incidents: 12542, fpns: 28, rate: 0.22 }),
 
   // Unitary
-  withSlugAndRevenue('Bristol', 'South West', 'Unitary', { incidents: 10266, fpns: 217, rate: 2.11 }),
-  withSlugAndRevenue('Brighton and Hove', 'South East', 'Unitary', { incidents: 1627, fpns: 390, rate: 23.97 }),
+  withSlugAndRevenue('Bristol', 'South West', 'Unitary', { incidents: 10266, fpns: 217, rate: 2.11 }, { expenditure: 881_082_000, councilTax: 282_398_335 }),
+  withSlugAndRevenue('Brighton and Hove', 'South East', 'Unitary', { incidents: 1627, fpns: 390, rate: 23.97 }, { expenditure: 621_633_000, councilTax: 185_147_980 }),
   withSlugAndRevenue('Milton Keynes', 'South East', 'Unitary', { incidents: 4258, fpns: 115, rate: 2.70 }),
-  withSlugAndRevenue('Reading', 'South East', 'Unitary', { incidents: 2229, fpns: 221, rate: 9.91 }),
-  withSlugAndRevenue('Plymouth', 'South West', 'Unitary', { incidents: 5370, fpns: 281, rate: 5.23 }),
-  withSlugAndRevenue('Derby', 'East Midlands', 'Unitary', { incidents: 6477, fpns: 182, rate: 2.81 }),
-  withSlugAndRevenue('Leicester', 'East Midlands', 'Unitary', { incidents: 6966, fpns: 230, rate: 3.30 }),
-  withSlugAndRevenue('Nottingham', 'East Midlands', 'Unitary', { incidents: 26138, fpns: 973, rate: 3.72 }),
+  withSlugAndRevenue('Reading', 'South East', 'Unitary', { incidents: 2229, fpns: 221, rate: 9.91 }, { expenditure: 343_990_000, councilTax: 118_884_447 }),
+  withSlugAndRevenue('Plymouth', 'South West', 'Unitary', { incidents: 5370, fpns: 281, rate: 5.23 }, { expenditure: 467_256_000, councilTax: 138_767_778 }),
+  withSlugAndRevenue('Derby', 'East Midlands', 'Unitary', { incidents: 6477, fpns: 182, rate: 2.81 }, { expenditure: 482_142_000, councilTax: 124_961_350 }),
+  withSlugAndRevenue('Leicester', 'East Midlands', 'Unitary', { incidents: 6966, fpns: 230, rate: 3.30 }, { expenditure: 768_088_000, councilTax: 153_587_399 }),
+  withSlugAndRevenue('Nottingham', 'East Midlands', 'Unitary', { incidents: 26138, fpns: 973, rate: 3.72 }, { expenditure: 703_846_000, councilTax: 148_879_420 }),
   withSlugAndRevenue('Peterborough', 'East', 'Unitary', { incidents: 10474, fpns: 247, rate: 2.36 }),
   withSlugAndRevenue('Stoke-on-Trent', 'West Midlands', 'Unitary', { incidents: 5893, fpns: 2109, rate: 35.79 }),
   withSlugAndRevenue('Luton', 'East', 'Unitary', { incidents: 11599, fpns: 144, rate: 1.24 }),

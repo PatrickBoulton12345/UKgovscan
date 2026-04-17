@@ -169,7 +169,7 @@ export default function CouncilDetailPage({
               </p>
               <div className="mt-3 pt-3 border-t border-gray-100">
                 <p className="text-xs font-dm text-gray-300">
-                  Source: DLUHC Revenue Outturn (RO) data
+                  Source: MHCLG Revenue Outturn 2024-25
                 </p>
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function CouncilDetailPage({
                 coming soon
               </p>
               <p className="text-sm font-dm text-gray-400 mt-2">
-                DLUHC revenue expenditure data
+                MHCLG revenue expenditure data
               </p>
             </div>
           )}
@@ -201,7 +201,7 @@ export default function CouncilDetailPage({
               </p>
               <div className="mt-3 pt-3 border-t border-gray-100">
                 <p className="text-xs font-dm text-gray-300">
-                  Source: DLUHC council tax statistics
+                  Source: MHCLG CTR1 Table 9, 2024-25
                 </p>
               </div>
             </div>
@@ -214,7 +214,7 @@ export default function CouncilDetailPage({
                 coming soon
               </p>
               <p className="text-sm font-dm text-gray-400 mt-2">
-                DLUHC council tax data
+                MHCLG council tax data
               </p>
             </div>
           )}
@@ -240,7 +240,7 @@ export default function CouncilDetailPage({
             National ranking is based on FPN-to-incident rate across all
             councils with available data. FPN revenue is estimated at the
             standard £400 rate — actual fines can range from £150 to £1,000.
-            Council expenditure and tax data from DLUHC (when available).
+            Council expenditure from MHCLG Revenue Outturn 2024-25. Council tax from MHCLG CTR1 Table 9, 2024-25.
           </p>
         </div>
       </section>
