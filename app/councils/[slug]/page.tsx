@@ -49,9 +49,7 @@ export default function CouncilDetailPage({
           </div>
           <h1>{council.name.toLowerCase()}</h1>
           <div className="flex items-center gap-3 mt-2">
-            <span
-              className={`inline-block px-3 py-1 text-xs font-dm font-bold rounded-sm ${TYPE_BADGE[council.type]}`}
-            >
+            <span className="inline-block px-3 py-1 text-xs font-dm font-bold rounded-sm bg-white/20 text-white border border-white/30">
               {council.type}
             </span>
             <span className="text-gray-400 font-dm text-sm">
