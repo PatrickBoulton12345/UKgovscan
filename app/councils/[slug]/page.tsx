@@ -131,28 +131,6 @@ export default function CouncilDetailPage({
             </div>
           )}
 
-          {/* Estimated FPN Revenue */}
-          {council.finance?.fpnRevenue !== undefined && (
-            <div className="stat-card border-l-4 border-l-lfg-yellow">
-              <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">
-                Estimated FPN revenue
-              </p>
-              <p className="font-octarine text-4xl leading-none text-lfg-black">
-                {council.finance.fpnRevenue > 0
-                  ? formatCurrency(council.finance.fpnRevenue)
-                  : '£0'}
-              </p>
-              <p className="text-sm font-dm text-gray-500 mt-2">
-                based on £400 standard fine per FPN
-              </p>
-              <div className="mt-3 pt-3 border-t border-gray-100">
-                <p className="text-xs font-dm text-gray-300">
-                  Councils can set fines between £150–£1,000.
-                  Actual revenue may differ.
-                </p>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Income breakdown */}
@@ -165,7 +143,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Total expenditure</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.expenditure)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">annual revenue expenditure</p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG Revenue Outturn 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG Revenue Outturn 2024-25 →</a>
                 </div>
               )}
 
@@ -174,7 +152,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Council tax</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.councilTax)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">annual council tax requirement</p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG CTR1 Table 9, 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG CTR1 Table 9, 2024-25 →</a>
                 </div>
               )}
 
@@ -183,7 +161,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Government grants</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.govGrants)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">RSG + specific grants</p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25 →</a>
                 </div>
               )}
 
@@ -192,7 +170,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Business rates retained</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.businessRates)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">retained from rate retention scheme</p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RS 2024-25 →</a>
                 </div>
               )}
 
@@ -203,7 +181,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 mt-2">
                     on-street + off-street (surplus: {council.finance.parkingSurplus ? formatCurrency(council.finance.parkingSurplus) : '—'})
                   </p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RO2 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RO2 2024-25 →</a>
                 </div>
               )}
 
@@ -212,7 +190,7 @@ export default function CouncilDetailPage({
                   <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-2">Fees, charges &amp; sales</p>
                   <p className="font-octarine text-4xl leading-none text-lfg-black">{formatCurrency(council.finance.feesCharges)}</p>
                   <p className="text-sm font-dm text-gray-500 mt-2">planning, social care, licensing, leisure etc.</p>
-                  <p className="text-xs font-dm text-gray-300 mt-3 pt-3 border-t border-gray-100">MHCLG RSX 2024-25</p>
+                  <a href="https://www.gov.uk/government/statistics/local-authority-revenue-expenditure-and-financing-england-2024-to-2025-individual-local-authority-data-outturn" target="_blank" rel="noopener noreferrer" className="block text-xs font-dm text-gray-300 hover:text-lfg-orange mt-3 pt-3 border-t border-gray-100">MHCLG RSX 2024-25 →</a>
                 </div>
               )}
             </div>
