@@ -2,37 +2,11 @@
 
 import { useState, useMemo } from 'react'
 import { formatCurrency } from '@/lib/utils'
+import aidData from '@/lib/aid-data.json'
 
-// ---------------------------------------------------------------------------
-// Top recipient countries — real FCDO/IATI data (project-level budgets)
-// ---------------------------------------------------------------------------
-const COUNTRIES = [
-  { name: 'Iraq', code: 'IQ', budget: 91_851_253, projects: 14 },
-  { name: 'Lebanon', code: 'LB', budget: 81_811_011, projects: 20 },
-  { name: 'Ukraine', code: 'UA', budget: 80_455_000, projects: 2 },
-  { name: 'Somalia', code: 'SO', budget: 78_436_600, projects: 6 },
-  { name: 'Afghanistan', code: 'AF', budget: 71_477_200, projects: 5 },
-  { name: 'Colombia', code: 'CO', budget: 62_978_552, projects: 64 },
-  { name: 'Syria', code: 'SY', budget: 59_682_854, projects: 13 },
-  { name: 'Libya', code: 'LY', budget: 53_487_200, projects: 1 },
-  { name: 'China', code: 'CN', budget: 52_493_310, projects: 389 },
-  { name: 'Tunisia', code: 'TN', budget: 49_419_212, projects: 15 },
-  { name: 'Mexico', code: 'MX', budget: 44_368_707, projects: 81 },
-  { name: 'Brazil', code: 'BR', budget: 42_922_412, projects: 60 },
-  { name: 'Jordan', code: 'JO', budget: 39_518_264, projects: 17 },
-  { name: 'Egypt', code: 'EG', budget: 38_703_900, projects: 1 },
-  { name: 'Yemen', code: 'YE', budget: 35_214_168, projects: 2 },
-  { name: 'Nigeria', code: 'NG', budget: 33_530_406, projects: 18 },
-  { name: 'Algeria', code: 'DZ', budget: 27_662_557, projects: 13 },
-  { name: 'Morocco', code: 'MA', budget: 23_970_879, projects: 22 },
-  { name: 'Myanmar', code: 'MM', budget: 22_689_930, projects: 25 },
-  { name: 'Pakistan', code: 'PK', budget: 20_080_046, projects: 19 },
-  { name: 'Turkey', code: 'TR', budget: 19_944_747, projects: 71 },
-  { name: 'Sri Lanka', code: 'LK', budget: 19_137_159, projects: 19 },
-  { name: 'India', code: 'IN', budget: 14_014_870, projects: 143 },
-  { name: 'Kenya', code: 'KE', budget: 13_200_000, projects: 35 },
-  { name: 'Ethiopia', code: 'ET', budget: 12_500_000, projects: 28 },
-]
+// Top recipient countries — FCDO/IATI cumulative project budgets, sourced via
+// the live build-time fetch in scripts/fetch-aid-data.mjs.
+const COUNTRIES = aidData.topCountries
 
 // ---------------------------------------------------------------------------
 // Spotlight: real aid projects that raise eyebrows
@@ -146,9 +120,6 @@ export default function ForeignAidPage() {
   const [sortBy, setSortBy] = useState<'budget' | 'projects' | 'name'>('budget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
-  const totalBudget = COUNTRIES.reduce((sum, c) => sum + c.budget, 0)
-  const totalProjects = COUNTRIES.reduce((sum, c) => sum + c.projects, 0)
-
   function toggleSort(field: 'budget' | 'projects' | 'name') {
     if (sortBy === field) {
       setSortDir(sortDir === 'desc' ? 'asc' : 'desc')
@@ -185,8 +156,9 @@ export default function ForeignAidPage() {
           <h1>foreign aid</h1>
           <p>
             UK overseas development assistance by recipient country.
-            Data sourced from FCDO via the International Aid Transparency
-            Initiative (IATI).
+            Project-level data from the International Aid Transparency
+            Initiative (IATI); national totals from the OECD Creditor
+            Reporting System (CRS).
           </p>
         </div>
       </section>
@@ -236,24 +208,35 @@ export default function ForeignAidPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <div className="stat-card border-l-4 border-l-lfg-orange">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              Countries
+              UK ODA {aidData.oecd.latestYear}
             </p>
-            <p className="text-3xl font-octarine lowercase">{filtered.length}</p>
+            <p className="text-3xl font-octarine lowercase">
+              {formatCurrency(aidData.oecd.latestDisbursementGbp ?? 0)}
+            </p>
+            <p className="text-xs font-dm text-gray-400 mt-1">
+              disbursed (OECD CRS)
+            </p>
           </div>
           <div className="stat-card border-l-4 border-l-lfg-blue">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              Total projects
+              Tracked projects
             </p>
             <p className="text-3xl font-octarine lowercase">
-              {totalProjects.toLocaleString()}
+              {(aidData.iatiSummary.projectCount ?? 0).toLocaleString()}
+            </p>
+            <p className="text-xs font-dm text-gray-400 mt-1">
+              across {aidData.iatiSummary.countryCount ?? 0} countries (IATI)
             </p>
           </div>
           <div className="stat-card border-l-4 border-l-lfg-yellow hidden md:block">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              Total budgeted
+              Cumulative budget
             </p>
             <p className="text-3xl font-octarine lowercase">
-              {formatCurrency(totalBudget)}
+              {formatCurrency(aidData.iatiSummary.totalBudgetGbp ?? 0)}
+            </p>
+            <p className="text-xs font-dm text-gray-400 mt-1">
+              all projects, all years (IATI)
             </p>
           </div>
         </div>
@@ -373,12 +356,19 @@ export default function ForeignAidPage() {
         {/* Data source */}
         <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">
           <p className="text-xs text-gray-500 font-dm">
-            Data sourced from the International Aid Transparency Initiative
-            (IATI) datastore. Reporting organisation: Foreign, Commonwealth
-            &amp; Development Office (FCDO). Budget figures represent
-            project-level allocations and may differ from final disbursements.
-            Country totals exclude global/multi-country programmes.
-            Click any country or project to view it on the official FCDO{' '}
+            Country totals are cumulative project budgets (across all years of
+            each programme) sourced from the International Aid Transparency
+            Initiative (IATI). The {aidData.oecd.latestYear} headline figure
+            is UK Official Development Assistance disbursed, sourced from the{' '}
+            <a
+              href="https://stats.oecd.org/Index.aspx?DataSetCode=crs1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-lfg-orange"
+            >
+              OECD Creditor Reporting System
+            </a>
+            . Click any country or project to view it on the official FCDO{' '}
             <a
               href="https://devtracker.fcdo.gov.uk"
               target="_blank"
@@ -387,7 +377,10 @@ export default function ForeignAidPage() {
             >
               DevTracker
             </a>
-            .
+            . Multi-country programmes are apportioned by IATI percentage
+            shares; budget figures may differ from final disbursements. Data
+            last refreshed{' '}
+            {new Date(aidData.generatedAt).toISOString().slice(0, 10)}.
           </p>
         </div>
       </div>

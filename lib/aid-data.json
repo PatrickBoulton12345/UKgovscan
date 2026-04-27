@@ -1,0 +1,284 @@
+{
+  "generatedAt": "2026-04-27T10:12:40.047Z",
+  "sources": [
+    {
+      "label": "IATI (FCDO publications)",
+      "url": "https://datastore.codeforiati.org"
+    },
+    {
+      "label": "OECD Creditor Reporting System (UK ODA)",
+      "url": "https://stats.oecd.org/Index.aspx?DataSetCode=crs1"
+    },
+    {
+      "label": "FCDO DevTracker (project-level detail)",
+      "url": "https://devtracker.fcdo.gov.uk"
+    }
+  ],
+  "iatiSummary": {
+    "totalBudgetGbp": 328167870586,
+    "projectCount": 30162,
+    "countryCount": 149,
+    "sectorCount": 185
+  },
+  "oecd": {
+    "latestYear": 2024,
+    "latestDisbursementGbp": 11609420019,
+    "latestProjectCount": 7215,
+    "byYear": [
+      {
+        "year": 2024,
+        "disbursementGbp": 11609420019,
+        "projectCount": 7215
+      },
+      {
+        "year": 2023,
+        "disbursementGbp": 11123755541,
+        "projectCount": 5806
+      },
+      {
+        "year": 2022,
+        "disbursementGbp": 11335068426,
+        "projectCount": 7620
+      },
+      {
+        "year": 2021,
+        "disbursementGbp": 8680429656,
+        "projectCount": 10793
+      },
+      {
+        "year": 2020,
+        "disbursementGbp": 10899793593,
+        "projectCount": 10878
+      },
+      {
+        "year": 2019,
+        "disbursementGbp": 11610804086,
+        "projectCount": 9742
+      },
+      {
+        "year": 2018,
+        "disbursementGbp": 10179132848,
+        "projectCount": 9803
+      },
+      {
+        "year": 2017,
+        "disbursementGbp": 8931838415,
+        "projectCount": 9588
+      },
+      {
+        "year": 2016,
+        "disbursementGbp": 9440897888,
+        "projectCount": 6906
+      },
+      {
+        "year": 2015,
+        "disbursementGbp": 7702022279,
+        "projectCount": 7588
+      }
+    ]
+  },
+  "topCountries": [
+    {
+      "code": "UA",
+      "name": "Ukraine",
+      "budget": 9389200076,
+      "projects": 99
+    },
+    {
+      "code": "ET",
+      "name": "Ethiopia",
+      "budget": 9177245303,
+      "projects": 623
+    },
+    {
+      "code": "NG",
+      "name": "Nigeria",
+      "budget": 8228424183,
+      "projects": 665
+    },
+    {
+      "code": "PK",
+      "name": "Pakistan",
+      "budget": 7768268146,
+      "projects": 671
+    },
+    {
+      "code": "BD",
+      "name": "Bangladesh",
+      "budget": 6067688417,
+      "projects": 578
+    },
+    {
+      "code": "IN",
+      "name": "India",
+      "budget": 5812887566,
+      "projects": 976
+    },
+    {
+      "code": "CD",
+      "name": "Congo (The Democratic Republic Of The)",
+      "budget": 5255023688,
+      "projects": 390
+    },
+    {
+      "code": "TZ",
+      "name": "Tanzania, The United Republic Of",
+      "budget": 5233213228,
+      "projects": 537
+    },
+    {
+      "code": "SY",
+      "name": "Syrian Arab Republic (The)",
+      "budget": 4699864376,
+      "projects": 247
+    },
+    {
+      "code": "SO",
+      "name": "Somalia",
+      "budget": 4345201111,
+      "projects": 486
+    },
+    {
+      "code": "KE",
+      "name": "Kenya",
+      "budget": 4337779027,
+      "projects": 753
+    },
+    {
+      "code": "SS",
+      "name": "South Sudan",
+      "budget": 4277870840,
+      "projects": 314
+    },
+    {
+      "code": "YE",
+      "name": "Yemen",
+      "budget": 3884445988,
+      "projects": 250
+    },
+    {
+      "code": "MW",
+      "name": "Malawi",
+      "budget": 3309261339,
+      "projects": 499
+    },
+    {
+      "code": "SL",
+      "name": "Sierra Leone",
+      "budget": 3157143219,
+      "projects": 519
+    },
+    {
+      "code": "NP",
+      "name": "Nepal",
+      "budget": 2919016717,
+      "projects": 568
+    },
+    {
+      "code": "PS",
+      "name": "Palestine, State Of",
+      "budget": 2906891906,
+      "projects": 273
+    },
+    {
+      "code": "SD",
+      "name": "Sudan (The)",
+      "budget": 2898360355,
+      "projects": 296
+    },
+    {
+      "code": "UG",
+      "name": "Uganda",
+      "budget": 2868155620,
+      "projects": 504
+    },
+    {
+      "code": "AF",
+      "name": "Afghanistan",
+      "budget": 2779966810,
+      "projects": 21
+    },
+    {
+      "code": "MM",
+      "name": "Myanmar",
+      "budget": 2489851379,
+      "projects": 258
+    },
+    {
+      "code": "MZ",
+      "name": "Mozambique",
+      "budget": 2433979985,
+      "projects": 367
+    },
+    {
+      "code": "ZW",
+      "name": "Zimbabwe",
+      "budget": 2428605651,
+      "projects": 275
+    },
+    {
+      "code": "LB",
+      "name": "Lebanon",
+      "budget": 2305746185,
+      "projects": 154
+    },
+    {
+      "code": "GH",
+      "name": "Ghana",
+      "budget": 2119614651,
+      "projects": 443
+    }
+  ],
+  "topSectors": [
+    {
+      "name": "Sectors not specified",
+      "budget": 117919816825,
+      "projects": 939
+    },
+    {
+      "name": "Material relief assistance and services",
+      "budget": 19888078309,
+      "projects": 1299
+    },
+    {
+      "name": "Financial policy and administrative management",
+      "budget": 16537330753,
+      "projects": 377
+    },
+    {
+      "name": "Education policy and administrative management",
+      "budget": 10439441960,
+      "projects": 556
+    },
+    {
+      "name": "Environmental policy and administrative management",
+      "budget": 10056046079,
+      "projects": 1642
+    },
+    {
+      "name": "Health policy and administrative management",
+      "budget": 8771190106,
+      "projects": 525
+    },
+    {
+      "name": "Primary education",
+      "budget": 7508082560,
+      "projects": 294
+    },
+    {
+      "name": "Medical research",
+      "budget": 7270405776,
+      "projects": 1518
+    },
+    {
+      "name": "Public sector policy and administrative management",
+      "budget": 6628393444,
+      "projects": 1347
+    },
+    {
+      "name": "Social Protection",
+      "budget": 6339445171,
+      "projects": 555
+    }
+  ]
+}
