@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { COUNCILS, REGIONS, TYPES, TYPE_BADGE, rateColour } from '@/lib/councils-data'
+import { COUNCILS, REGIONS, TYPES, TYPE_BADGE } from '@/lib/councils-data'
 
 const ACCENTS = ['border-l-lfg-orange', 'border-l-lfg-blue', 'border-l-lfg-yellow'] as const
 
@@ -34,31 +34,13 @@ export default function CouncilsPage() {
         <div className="max-w-7xl mx-auto">
           <h1>councils</h1>
           <p>
-            Local authority fly tipping enforcement across England. How many
-            incidents result in a Fixed Penalty Notice?
+            Local authorities across England — search and filter by region or
+            type to view at-a-glance data.
           </p>
         </div>
       </section>
 
       <div className="brand-motif" />
-
-      <section className="bg-lfg-cream/40 border-b-2 border-lfg-black">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: 'councils shown', value: String(COUNCILS.length) },
-              { label: 'council types', value: '5' },
-              { label: 'regions', value: '9' },
-              { label: 'data source', value: 'DEFRA' },
-            ].map((stat) => (
-              <div key={stat.label} className="stat-card p-4 border-l-4 border-l-lfg-blue text-center">
-                <p className="font-octarine text-2xl text-lfg-orange">{stat.value}</p>
-                <p className="text-xs font-dm text-gray-500 mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col gap-6">
@@ -141,14 +123,6 @@ export default function CouncilsPage() {
           </div>
         )}
 
-        <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">
-          <p className="text-xs text-gray-500 font-dm">
-            Fly tipping data sourced from DEFRA. FPN = Fixed Penalty Notice.
-            A higher percentage means the council is more actively enforcing
-            against fly tipping. County councils are excluded as waste collection
-            is handled at district level.
-          </p>
-        </div>
       </section>
     </div>
   )

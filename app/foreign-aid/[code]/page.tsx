@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { Fragment, useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { formatCurrency, formatDate } from '@/lib/utils'
@@ -28,7 +28,15 @@ interface ApiResponse {
   countryName: string
   total: number
   truncated?: boolean
+  currentYear?: { year: number; totalSpent: number; projectCount: number } | null
   projects: Project[]
+}
+
+const SAFE_IATI_ID = /^[A-Za-z0-9._-]+$/
+
+function devtrackerUrl(iatiId: string) {
+  if (!iatiId || !SAFE_IATI_ID.test(iatiId)) return null
+  return `${DEVTRACKER_BASE}/programme/${encodeURIComponent(iatiId)}/summary`
 }
 
 type SortField = 'budget' | 'disbursement' | 'title' | 'endDate' | 'status'
@@ -44,6 +52,7 @@ export default function CountryDetailPage() {
   const [sortBy, setSortBy] = useState<SortField>('budget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [budgetInfoOpen, setBudgetInfoOpen] = useState(false)
+  const [expandedId, setExpandedId] = useState<number | null>(null)
 
   useEffect(() => {
     if (!budgetInfoOpen) return
@@ -146,6 +155,12 @@ export default function CountryDetailPage() {
     () => (data?.projects ?? []).filter((p) => p.activityStatus === 'Implementation').length,
     [data]
   )
+  const earliestStartYear = useMemo(() => {
+    const years = (data?.projects ?? [])
+      .map((p) => (p.startDate ? new Date(p.startDate).getUTCFullYear() : null))
+      .filter((y): y is number => Number.isFinite(y as number))
+    return years.length ? Math.min(...years) : null
+  }, [data])
 
   const statusOptions = useMemo(() => {
     if (!data) return ['all'] as const
@@ -201,7 +216,20 @@ export default function CountryDetailPage() {
         {data && (
           <>
             {/* Summary */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+              <div className="stat-card border-l-4 border-l-lfg-green">
+                <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+                  Spent in {data.currentYear?.year ?? '—'}
+                </p>
+                <p className="text-3xl font-octarine lowercase">
+                  {data.currentYear
+                    ? formatCurrency(data.currentYear.totalSpent)
+                    : '—'}
+                </p>
+                <p className="text-xs font-dm text-gray-400 mt-1">
+                  {data.currentYear?.projectCount ?? 0} projects active
+                </p>
+              </div>
               <div className="stat-card border-l-4 border-l-lfg-orange">
                 <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
                   Projects
@@ -213,7 +241,7 @@ export default function CountryDetailPage() {
                   total in IATI
                 </p>
               </div>
-              <div className="stat-card border-l-4 border-l-lfg-green">
+              <div className="stat-card border-l-4 border-l-lfg-cream">
                 <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
                   Active
                 </p>
@@ -243,12 +271,14 @@ export default function CountryDetailPage() {
                   {formatCurrency(totalBudget)}
                 </p>
                 <p className="text-xs font-dm text-gray-400 mt-1">
-                  click for methodology
+                  {earliestStartYear
+                    ? `since ${earliestStartYear} · click for methodology`
+                    : 'click for methodology'}
                 </p>
               </button>
               <div className="stat-card border-l-4 border-l-lfg-blue">
                 <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-                  Total disbursed
+                  Total distributed so far
                 </p>
                 <p className="text-3xl font-octarine lowercase">
                   {formatCurrency(totalDisbursed)}
@@ -333,59 +363,154 @@ export default function CountryDetailPage() {
                         onClick={() => toggleSort('disbursement')}
                         className="flex items-center hover:text-lfg-orange"
                       >
-                        Disbursed{' '}
+                        Distributed{' '}
                         <span className="ml-1">{sortIcon('disbursement')}</span>
                       </button>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((p) => (
-                    <tr key={p.id} className="hover:bg-lfg-cream/30">
-                      <td className="font-dm">
-                        <a
-                          href={`${DEVTRACKER_BASE}/programme/${p.iatiIdentifier}/summary`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-bold hover:text-lfg-orange hover:underline transition-colors"
-                          title={p.title}
+                  {filtered.map((p) => {
+                    const isOpen = expandedId === p.id
+                    const trackerUrl = devtrackerUrl(p.iatiIdentifier)
+                    return (
+                      <Fragment key={p.id}>
+                        <tr
+                          className="hover:bg-lfg-cream/30 cursor-pointer"
+                          onClick={() => setExpandedId(isOpen ? null : p.id)}
                         >
-                          {p.title?.length > 90
-                            ? p.title.slice(0, 90) + '…'
-                            : p.title}{' '}
-                          <span className="text-xs text-gray-400">↗</span>
-                        </a>
-                        <p className="text-[11px] text-gray-400 font-mono mt-0.5">
-                          {p.iatiIdentifier}
-                        </p>
-                      </td>
-                      <td className="hidden md:table-cell font-dm text-xs text-gray-600">
-                        {p.sectorName ?? '—'}
-                      </td>
-                      <td className="hidden lg:table-cell font-dm text-xs">
-                        <span
-                          className={`inline-block px-2 py-1 rounded ${
-                            p.activityStatus === 'Implementation'
-                              ? 'bg-lfg-green/20 text-green-900'
-                              : p.activityStatus === 'Closed'
-                                ? 'bg-gray-100 text-gray-600'
-                                : 'bg-lfg-yellow/20 text-yellow-900'
-                          }`}
-                        >
-                          {p.activityStatus}
-                        </span>
-                      </td>
-                      <td className="hidden lg:table-cell font-dm text-xs text-gray-600">
-                        {p.endDate ? formatDate(p.endDate) : '—'}
-                      </td>
-                      <td className="font-dm font-bold text-lfg-orange">
-                        {formatCurrency(p.budgetGbp ?? 0)}
-                      </td>
-                      <td className="hidden md:table-cell font-dm text-gray-700">
-                        {formatCurrency(p.disbursementGbp ?? 0)}
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="font-dm">
+                            <span className="inline-flex items-center gap-2">
+                              <span
+                                className="text-gray-400 text-xs font-mono select-none"
+                                aria-hidden="true"
+                              >
+                                {isOpen ? '▾' : '▸'}
+                              </span>
+                              <span className="font-bold" title={p.title}>
+                                {p.title?.length > 90
+                                  ? p.title.slice(0, 90) + '…'
+                                  : p.title}
+                              </span>
+                            </span>
+                            <p className="text-[11px] text-gray-400 font-mono mt-0.5 ml-5">
+                              {p.iatiIdentifier}
+                            </p>
+                          </td>
+                          <td className="hidden md:table-cell font-dm text-xs text-gray-600">
+                            {p.sectorName ?? '—'}
+                          </td>
+                          <td className="hidden lg:table-cell font-dm text-xs">
+                            <span
+                              className={`inline-block px-2 py-1 rounded ${
+                                p.activityStatus === 'Implementation'
+                                  ? 'bg-lfg-green/20 text-green-900'
+                                  : p.activityStatus === 'Closed'
+                                    ? 'bg-gray-100 text-gray-600'
+                                    : 'bg-lfg-yellow/20 text-yellow-900'
+                              }`}
+                            >
+                              {p.activityStatus}
+                            </span>
+                          </td>
+                          <td className="hidden lg:table-cell font-dm text-xs text-gray-600">
+                            {p.endDate ? formatDate(p.endDate) : '—'}
+                          </td>
+                          <td className="font-dm font-bold text-lfg-orange">
+                            {formatCurrency(p.budgetGbp ?? 0)}
+                          </td>
+                          <td className="hidden md:table-cell font-dm text-gray-700">
+                            {formatCurrency(p.disbursementGbp ?? 0)}
+                          </td>
+                        </tr>
+                        {isOpen && (
+                          <tr className="bg-lfg-cream/20 border-b-2 border-lfg-cream">
+                            <td colSpan={6} className="px-4 py-4">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-dm text-sm">
+                                <div className="md:col-span-2 space-y-2">
+                                  <p className="font-bold text-base">
+                                    {p.title}
+                                  </p>
+                                  {p.description && (
+                                    <p className="text-gray-600">
+                                      {p.description}
+                                    </p>
+                                  )}
+                                  <div className="pt-2 flex flex-wrap gap-3 text-xs text-gray-500">
+                                    <span>
+                                      <span className="text-gray-400">Status:</span>{' '}
+                                      {p.activityStatus}
+                                    </span>
+                                    <span>
+                                      <span className="text-gray-400">Sector:</span>{' '}
+                                      {p.sectorName ?? '—'}
+                                    </span>
+                                    <span>
+                                      <span className="text-gray-400">Start:</span>{' '}
+                                      {p.startDate ? formatDate(p.startDate) : '—'}
+                                    </span>
+                                    <span>
+                                      <span className="text-gray-400">End:</span>{' '}
+                                      {p.endDate ? formatDate(p.endDate) : '—'}
+                                    </span>
+                                  </div>
+                                  <p className="text-[11px] text-gray-400 font-mono pt-1">
+                                    IATI: {p.iatiIdentifier}
+                                  </p>
+                                </div>
+                                <div className="space-y-2 text-xs">
+                                  <div>
+                                    <p className="text-gray-400 uppercase tracking-wider mb-0.5">
+                                      Budget
+                                    </p>
+                                    <p className="text-lfg-orange font-bold text-base">
+                                      {formatCurrency(p.budgetGbp ?? 0)}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-gray-400 uppercase tracking-wider mb-0.5">
+                                      Distributed so far
+                                    </p>
+                                    <p className="font-bold text-base">
+                                      {formatCurrency(p.disbursementGbp ?? 0)}
+                                    </p>
+                                  </div>
+                                  {p.commitmentGbp ? (
+                                    <div>
+                                      <p className="text-gray-400 uppercase tracking-wider mb-0.5">
+                                        Committed
+                                      </p>
+                                      <p className="font-bold text-base">
+                                        {formatCurrency(p.commitmentGbp)}
+                                      </p>
+                                    </div>
+                                  ) : null}
+                                  <div className="pt-3">
+                                    {trackerUrl ? (
+                                      <a
+                                        href={trackerUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-block bg-lfg-black text-white px-3 py-2 text-xs font-bold hover:bg-lfg-orange transition-colors"
+                                      >
+                                        View on FCDO DevTracker ↗
+                                      </a>
+                                    ) : (
+                                      <p className="text-[11px] italic text-gray-400">
+                                        FCDO has not assigned a DevTracker URL
+                                        for this entry (malformed IATI ID).
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </Fragment>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
@@ -464,8 +589,9 @@ export default function CountryDetailPage() {
                     year added together, not just this year's portion
                   </li>
                   <li>
-                    Programmes going back to whenever IATI began publishing
-                    them (typically the early 2010s)
+                    {earliestStartYear
+                      ? `Programmes going back to ${earliestStartYear} (the earliest start date in this country's IATI records)`
+                      : 'Programmes going back to whenever IATI began publishing them (typically the early 2010s)'}
                   </li>
                 </ul>
               </div>
@@ -490,8 +616,8 @@ export default function CountryDetailPage() {
                     main foreign aid page for that)
                   </li>
                   <li>
-                    It isn't actually-disbursed money — that's the "Total
-                    disbursed" stat next to it (sum of the{' '}
+                    It isn't actually-distributed money — that's the "Total
+                    distributed so far" stat next to it (sum of the{' '}
                     <code className="bg-gray-100 px-1 py-0.5 text-xs">
                       disbursement
                     </code>{' '}

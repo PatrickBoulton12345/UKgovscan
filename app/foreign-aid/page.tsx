@@ -22,14 +22,6 @@ const SPOTLIGHT = [
     iatiId: 'GB-GOV-3-PAP-CNF-002335',
   },
   {
-    title: 'Prevention of Violence against Women and Girls through Football',
-    country: 'Global',
-    budget: 193_494,
-    tag: '£193k using football to prevent domestic violence',
-    source: 'IATI / FCDO',
-    iatiId: 'GB-1-204864',
-  },
-  {
     title: 'ARM: Strengthening UK-Armenia fashion ties in the framework of Yerevan Fashion Week',
     country: 'Armenia',
     budget: 34_877,
@@ -117,7 +109,6 @@ const DEVTRACKER_BASE = 'https://devtracker.fcdo.gov.uk'
 // Page
 // ---------------------------------------------------------------------------
 export default function ForeignAidPage() {
-  const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'currentYearBudget' | 'projects' | 'name'>('currentYearBudget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
@@ -131,12 +122,7 @@ export default function ForeignAidPage() {
   }
 
   const filtered = useMemo(() => {
-    let list = COUNTRIES
-    if (search.trim()) {
-      const q = search.toLowerCase()
-      list = list.filter((c) => c.name.toLowerCase().includes(q))
-    }
-    return [...list].sort((a, b) => {
+    return [...COUNTRIES].sort((a, b) => {
       const av = a[sortBy]
       const bv = b[sortBy]
       if (typeof av === 'string' && typeof bv === 'string') {
@@ -146,7 +132,7 @@ export default function ForeignAidPage() {
         ? (av as number) - (bv as number)
         : (bv as number) - (av as number)
     })
-  }, [search, sortBy, sortDir])
+  }, [sortBy, sortDir])
 
   const maxCurrentYearBudget = Math.max(
     ...COUNTRIES.map((c) => c.currentYearBudget || 0),
@@ -163,6 +149,10 @@ export default function ForeignAidPage() {
             Project-level data from the International Aid Transparency
             Initiative (IATI); national totals from the OECD Creditor
             Reporting System (CRS).
+          </p>
+          <p className="text-xs italic text-gray-400 mt-2 font-dm">
+            Names for territories come from UK Government and third-party
+            sources. They may not represent LFG&apos;s position.
           </p>
         </div>
       </section>
@@ -240,20 +230,19 @@ export default function ForeignAidPage() {
               {(aidData.iatiSummary.projectCount ?? 0).toLocaleString()}
             </p>
             <p className="text-xs font-dm text-gray-400 mt-1">
-              across {aidData.iatiSummary.countryCount ?? 0} countries (IATI)
+              across {aidData.iatiSummary.countryCount ?? 0} countries (
+              <a
+                href="https://d-portal.org/q.html?publisher_id=GB-GOV-1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-lfg-orange"
+                title="Browse FCDO IATI projects on D-Portal"
+              >
+                IATI ↗
+              </a>
+              )
             </p>
           </div>
-        </div>
-
-        {/* Search */}
-        <div className="mb-6 max-w-md">
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search countries…"
-            className="w-full border-2 border-lfg-black px-4 py-3 font-dm text-sm focus:outline-none focus:border-lfg-orange placeholder-gray-400"
-          />
         </div>
 
         <h2 className="font-octarine text-2xl mb-4">by recipient country</h2>
@@ -348,12 +337,6 @@ export default function ForeignAidPage() {
             </tbody>
           </table>
         </div>
-
-        {filtered.length === 0 && (
-          <div className="text-center py-12 text-gray-400 font-dm">
-            No countries match your search.
-          </div>
-        )}
 
         {/* Data source */}
         <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">

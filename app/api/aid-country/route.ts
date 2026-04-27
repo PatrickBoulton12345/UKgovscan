@@ -19,6 +19,28 @@ async function fetchPage(code: string, page: number, limit: number) {
   return res.json()
 }
 
+async function fetchYear(code: string, year: number) {
+  const url = `https://ukgovscan.com/api/foreign-aid?country=${code}&year=${year}&limit=1`
+  const res = await fetch(url, {
+    headers: UPSTREAM_HEADERS,
+    next: { revalidate: 3600 },
+  })
+  if (!res.ok) return null
+  const data = await res.json()
+  return {
+    year,
+    totalSpent: data?.summary?.totalSpent ?? 0,
+    projectCount: data?.summary?.projectCount ?? 0,
+  }
+}
+
+function pickRecentYear(): number {
+  const now = new Date()
+  // Calendar 2026 reports very few projects until late in the year, so fall
+  // back to the previous calendar year as the "current" reporting year.
+  return now.getUTCFullYear() - 1
+}
+
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get('code')?.toUpperCase()
   if (!code || !/^[A-Z]{2}$/.test(code)) {
@@ -29,7 +51,11 @@ export async function GET(req: NextRequest) {
   const maxPages = 30 // safety cap → 3000 projects max
 
   try {
-    const first = await fetchPage(code, 1, limit)
+    const recentYear = pickRecentYear()
+    const [first, currentYear] = await Promise.all([
+      fetchPage(code, 1, limit),
+      fetchYear(code, recentYear),
+    ])
     const totalPages = Math.min(first.pagination?.totalPages ?? 1, maxPages)
     const projects = [...(first.projects ?? [])]
 
@@ -46,6 +72,7 @@ export async function GET(req: NextRequest) {
       countryName: projects[0]?.recipientCountryName ?? code,
       total: first.pagination?.total ?? projects.length,
       truncated: (first.pagination?.totalPages ?? 0) > maxPages,
+      currentYear,
       projects,
     })
   } catch (err) {
