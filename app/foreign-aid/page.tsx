@@ -117,10 +117,10 @@ const DEVTRACKER_BASE = 'https://devtracker.fcdo.gov.uk'
 // ---------------------------------------------------------------------------
 export default function ForeignAidPage() {
   const [search, setSearch] = useState('')
-  const [sortBy, setSortBy] = useState<'budget' | 'currentYearBudget' | 'projects' | 'name'>('budget')
+  const [sortBy, setSortBy] = useState<'currentYearBudget' | 'projects' | 'name'>('currentYearBudget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
-  function toggleSort(field: 'budget' | 'currentYearBudget' | 'projects' | 'name') {
+  function toggleSort(field: 'currentYearBudget' | 'projects' | 'name') {
     if (sortBy === field) {
       setSortDir(sortDir === 'desc' ? 'asc' : 'desc')
     } else {
@@ -147,7 +147,10 @@ export default function ForeignAidPage() {
     })
   }, [search, sortBy, sortDir])
 
-  const maxBudget = COUNTRIES[0].budget
+  const maxCurrentYearBudget = Math.max(
+    ...COUNTRIES.map((c) => c.currentYearBudget || 0),
+    1,
+  )
 
   return (
     <div>
@@ -205,18 +208,7 @@ export default function ForeignAidPage() {
       {/* Country breakdown */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="stat-card border-l-4 border-l-lfg-orange">
-            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              UK ODA {aidData.oecd.latestYear}
-            </p>
-            <p className="text-3xl font-octarine lowercase">
-              {formatCurrency(aidData.oecd.latestDisbursementGbp ?? 0)}
-            </p>
-            <p className="text-xs font-dm text-gray-400 mt-1">
-              disbursed (OECD CRS)
-            </p>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <div className="stat-card border-l-4 border-l-lfg-green">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
               Spend in {aidData.currentYear.year}
@@ -228,6 +220,17 @@ export default function ForeignAidPage() {
               {(aidData.currentYear.projectCount ?? 0).toLocaleString()} projects, {aidData.currentYear.countryCount ?? 0} countries (IATI)
             </p>
           </div>
+          <div className="stat-card border-l-4 border-l-lfg-orange">
+            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              UK ODA {aidData.oecd.latestYear}
+            </p>
+            <p className="text-3xl font-octarine lowercase">
+              {formatCurrency(aidData.oecd.latestDisbursementGbp ?? 0)}
+            </p>
+            <p className="text-xs font-dm text-gray-400 mt-1">
+              disbursed (OECD CRS)
+            </p>
+          </div>
           <div className="stat-card border-l-4 border-l-lfg-blue">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
               Tracked projects
@@ -237,17 +240,6 @@ export default function ForeignAidPage() {
             </p>
             <p className="text-xs font-dm text-gray-400 mt-1">
               across {aidData.iatiSummary.countryCount ?? 0} countries (IATI)
-            </p>
-          </div>
-          <div className="stat-card border-l-4 border-l-lfg-yellow hidden md:block">
-            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              Cumulative spend
-            </p>
-            <p className="text-3xl font-octarine lowercase">
-              {formatCurrency(aidData.iatiSummary.totalBudgetGbp ?? 0)}
-            </p>
-            <p className="text-xs font-dm text-gray-400 mt-1">
-              all projects, all years (IATI)
             </p>
           </div>
         </div>
@@ -310,19 +302,6 @@ export default function ForeignAidPage() {
                     </span>
                   </button>
                 </th>
-                <th>
-                  <button
-                    onClick={() => toggleSort('budget')}
-                    className="flex items-center hover:text-lfg-orange transition-colors"
-                  >
-                    Total spend
-                    <span className="ml-1">
-                      {sortBy === 'budget'
-                        ? sortDir === 'desc' ? '↓' : '↑'
-                        : '↕'}
-                    </span>
-                  </button>
-                </th>
                 <th className="hidden md:table-cell w-64"></th>
               </tr>
             </thead>
@@ -355,15 +334,12 @@ export default function ForeignAidPage() {
                   <td className="font-dm font-bold text-lfg-green">
                     {c.currentYearBudget > 0 ? formatCurrency(c.currentYearBudget) : <span className="text-gray-300">—</span>}
                   </td>
-                  <td className="font-dm font-bold text-lfg-orange">
-                    {formatCurrency(c.budget)}
-                  </td>
                   <td className="hidden md:table-cell">
                     <div className="w-full bg-gray-100 h-3">
                       <div
-                        className="bg-lfg-orange h-3 transition-all duration-300"
+                        className="bg-lfg-green h-3 transition-all duration-300"
                         style={{
-                          width: `${(c.budget / maxBudget) * 100}%`,
+                          width: `${(c.currentYearBudget / maxCurrentYearBudget) * 100}%`,
                         }}
                       />
                     </div>
@@ -383,10 +359,9 @@ export default function ForeignAidPage() {
         {/* Data source */}
         <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">
           <p className="text-xs text-gray-500 font-dm">
-            Country totals are cumulative project spend (across all years of
-            each programme, including closed programmes) sourced from the
-            International Aid Transparency Initiative (IATI). The{' '}
-            {aidData.oecd.latestYear} headline figure is UK Official
+            Per-country figures show UK aid spend in {aidData.currentYear.year},
+            sourced from the International Aid Transparency Initiative (IATI).
+            The {aidData.oecd.latestYear} headline figure is UK Official
             Development Assistance disbursed in that year, sourced from the{' '}
             <a
               href="https://stats.oecd.org/Index.aspx?DataSetCode=crs1"
