@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { formatCurrency } from '@/lib/utils'
 import aidData from '@/lib/aid-data.json'
 
-// Top recipient countries — FCDO/IATI cumulative project budgets, sourced via
+// Top recipient countries — FCDO/IATI cumulative project spend, sourced via
 // the live build-time fetch in scripts/fetch-aid-data.mjs.
 const COUNTRIES = aidData.topCountries
 
@@ -230,7 +230,7 @@ export default function ForeignAidPage() {
           </div>
           <div className="stat-card border-l-4 border-l-lfg-yellow hidden md:block">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
-              Cumulative budget
+              Cumulative spend
             </p>
             <p className="text-3xl font-octarine lowercase">
               {formatCurrency(aidData.iatiSummary.totalBudgetGbp ?? 0)}
@@ -291,7 +291,7 @@ export default function ForeignAidPage() {
                     onClick={() => toggleSort('budget')}
                     className="flex items-center hover:text-lfg-orange transition-colors"
                   >
-                    Total budget
+                    Total spend
                     <span className="ml-1">
                       {sortBy === 'budget'
                         ? sortDir === 'desc' ? '↓' : '↑'
@@ -356,10 +356,11 @@ export default function ForeignAidPage() {
         {/* Data source */}
         <div className="mt-8 p-4 bg-lfg-cream/40 border-l-4 border-l-lfg-yellow">
           <p className="text-xs text-gray-500 font-dm">
-            Country totals are cumulative project budgets (across all years of
-            each programme) sourced from the International Aid Transparency
-            Initiative (IATI). The {aidData.oecd.latestYear} headline figure
-            is UK Official Development Assistance disbursed, sourced from the{' '}
+            Country totals are cumulative project spend (across all years of
+            each programme, including closed programmes) sourced from the
+            International Aid Transparency Initiative (IATI). The{' '}
+            {aidData.oecd.latestYear} headline figure is UK Official
+            Development Assistance disbursed in that year, sourced from the{' '}
             <a
               href="https://stats.oecd.org/Index.aspx?DataSetCode=crs1"
               target="_blank"
