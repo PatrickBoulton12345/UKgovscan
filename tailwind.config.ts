@@ -13,6 +13,7 @@ const config: Config = {
           orange: '#FE5500',
           yellow: '#EE9944',
           blue: '#79CAC4',
+          green: '#6FB07F',
           cream: '#EBE3D0',
         },
       },

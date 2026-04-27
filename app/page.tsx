@@ -84,12 +84,6 @@ export default async function HomePage() {
               accent: 'border-l-lfg-orange',
             },
             {
-              title: 'spending',
-              desc: 'Departmental payments over £25,000 across government bodies.',
-              href: '/spending',
-              accent: 'border-l-lfg-blue',
-            },
-            {
               title: 'map',
               desc: 'See contracts geographically. Explore procurement by region.',
               href: '/map',

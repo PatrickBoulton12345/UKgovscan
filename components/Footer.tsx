@@ -25,9 +25,6 @@ export default function Footer() {
               <Link href="/contracts" className="text-gray-300 hover:text-white text-sm font-dm">
                 Contracts
               </Link>
-              <Link href="/spending" className="text-gray-300 hover:text-white text-sm font-dm">
-                Spending
-              </Link>
               <Link href="/councils" className="text-gray-300 hover:text-white text-sm font-dm">
                 Councils
               </Link>

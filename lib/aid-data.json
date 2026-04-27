@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T10:12:40.047Z",
+  "generatedAt": "2026-04-27T10:24:23.676Z",
   "sources": [
     {
       "label": "IATI (FCDO publications)",
@@ -19,6 +19,12 @@
     "projectCount": 30162,
     "countryCount": 149,
     "sectorCount": 185
+  },
+  "currentYear": {
+    "year": 2025,
+    "totalSpentGbp": 5528557766,
+    "projectCount": 966,
+    "countryCount": 87
   },
   "oecd": {
     "latestYear": 2024,
@@ -82,151 +88,201 @@
       "code": "UA",
       "name": "Ukraine",
       "budget": 9389200076,
-      "projects": 99
+      "projects": 99,
+      "currentYearBudget": 390833630,
+      "currentYearProjects": 27
     },
     {
       "code": "ET",
       "name": "Ethiopia",
       "budget": 9177245303,
-      "projects": 623
+      "projects": 623,
+      "currentYearBudget": 136431121,
+      "currentYearProjects": 12
     },
     {
       "code": "NG",
       "name": "Nigeria",
       "budget": 8228424183,
-      "projects": 665
+      "projects": 665,
+      "currentYearBudget": 56870022,
+      "currentYearProjects": 23
     },
     {
       "code": "PK",
       "name": "Pakistan",
       "budget": 7768268146,
-      "projects": 671
+      "projects": 671,
+      "currentYearBudget": 13589448,
+      "currentYearProjects": 9
     },
     {
       "code": "BD",
       "name": "Bangladesh",
       "budget": 6067688417,
-      "projects": 578
+      "projects": 578,
+      "currentYearBudget": 66858183,
+      "currentYearProjects": 21
     },
     {
       "code": "IN",
       "name": "India",
       "budget": 5812887566,
-      "projects": 976
+      "projects": 976,
+      "currentYearBudget": 10294757,
+      "currentYearProjects": 14
     },
     {
       "code": "CD",
       "name": "Congo (The Democratic Republic Of The)",
       "budget": 5255023688,
-      "projects": 390
+      "projects": 390,
+      "currentYearBudget": 31448149,
+      "currentYearProjects": 9
     },
     {
       "code": "TZ",
       "name": "Tanzania, The United Republic Of",
       "budget": 5233213228,
-      "projects": 537
+      "projects": 537,
+      "currentYearBudget": 0,
+      "currentYearProjects": 0
     },
     {
       "code": "SY",
       "name": "Syrian Arab Republic (The)",
       "budget": 4699864376,
-      "projects": 247
+      "projects": 247,
+      "currentYearBudget": 15970659,
+      "currentYearProjects": 5
     },
     {
       "code": "SO",
       "name": "Somalia",
       "budget": 4345201111,
-      "projects": 486
+      "projects": 486,
+      "currentYearBudget": 21164420,
+      "currentYearProjects": 6
     },
     {
       "code": "KE",
       "name": "Kenya",
       "budget": 4337779027,
-      "projects": 753
+      "projects": 753,
+      "currentYearBudget": 49677469,
+      "currentYearProjects": 26
     },
     {
       "code": "SS",
       "name": "South Sudan",
       "budget": 4277870840,
-      "projects": 314
+      "projects": 314,
+      "currentYearBudget": 1243276,
+      "currentYearProjects": 3
     },
     {
       "code": "YE",
       "name": "Yemen",
       "budget": 3884445988,
-      "projects": 250
+      "projects": 250,
+      "currentYearBudget": 22331685,
+      "currentYearProjects": 8
     },
     {
       "code": "MW",
       "name": "Malawi",
       "budget": 3309261339,
-      "projects": 499
+      "projects": 499,
+      "currentYearBudget": 35511735,
+      "currentYearProjects": 14
     },
     {
       "code": "SL",
       "name": "Sierra Leone",
       "budget": 3157143219,
-      "projects": 519
+      "projects": 519,
+      "currentYearBudget": 1386615,
+      "currentYearProjects": 7
     },
     {
       "code": "NP",
       "name": "Nepal",
       "budget": 2919016717,
-      "projects": 568
+      "projects": 568,
+      "currentYearBudget": 1877729,
+      "currentYearProjects": 6
     },
     {
       "code": "PS",
       "name": "Palestine, State Of",
       "budget": 2906891906,
-      "projects": 273
+      "projects": 273,
+      "currentYearBudget": 49626010,
+      "currentYearProjects": 18
     },
     {
       "code": "SD",
       "name": "Sudan (The)",
       "budget": 2898360355,
-      "projects": 296
+      "projects": 296,
+      "currentYearBudget": 9142286,
+      "currentYearProjects": 9
     },
     {
       "code": "UG",
       "name": "Uganda",
       "budget": 2868155620,
-      "projects": 504
+      "projects": 504,
+      "currentYearBudget": 2843949,
+      "currentYearProjects": 4
     },
     {
       "code": "AF",
       "name": "Afghanistan",
       "budget": 2779966810,
-      "projects": 21
+      "projects": 21,
+      "currentYearBudget": 0,
+      "currentYearProjects": 0
     },
     {
       "code": "MM",
       "name": "Myanmar",
       "budget": 2489851379,
-      "projects": 258
+      "projects": 258,
+      "currentYearBudget": 1456924,
+      "currentYearProjects": 9
     },
     {
       "code": "MZ",
       "name": "Mozambique",
       "budget": 2433979985,
-      "projects": 367
+      "projects": 367,
+      "currentYearBudget": 6182754,
+      "currentYearProjects": 9
     },
     {
       "code": "ZW",
       "name": "Zimbabwe",
       "budget": 2428605651,
-      "projects": 275
+      "projects": 275,
+      "currentYearBudget": 3570550,
+      "currentYearProjects": 5
     },
     {
       "code": "LB",
       "name": "Lebanon",
       "budget": 2305746185,
-      "projects": 154
+      "projects": 154,
+      "currentYearBudget": 31512110,
+      "currentYearProjects": 6
     },
     {
       "code": "GH",
       "name": "Ghana",
       "budget": 2119614651,
-      "projects": 443
+      "projects": 443,
+      "currentYearBudget": 8118396,
+      "currentYearProjects": 7
     }
   ],
   "topSectors": [

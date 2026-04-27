@@ -29,25 +29,61 @@ async function getJSON(url) {
   return res.json()
 }
 
+// Pick the most recent calendar year that has meaningful IATI reporting
+// (project count above the threshold). Prevents us from showing the current
+// half-empty year if it's just a few weeks old.
+const MIN_PROJECTS_FOR_CURRENT_YEAR = 500
+
+async function pickCurrentYear() {
+  const now = new Date()
+  const candidates = [now.getUTCFullYear(), now.getUTCFullYear() - 1, now.getUTCFullYear() - 2]
+  for (const y of candidates) {
+    const data = await getJSON(`https://ukgovscan.com/api/foreign-aid?year=${y}&limit=1`)
+    const projectCount = data?.summary?.projectCount ?? 0
+    console.log(`[aid-data]   year ${y}: ${projectCount} projects`)
+    if (projectCount >= MIN_PROJECTS_FOR_CURRENT_YEAR) {
+      return { year: y, data }
+    }
+  }
+  throw new Error('No recent year has enough reporting to use as "current"')
+}
+
 async function main() {
   console.log('[aid-data] Fetching IATI aggregation from ukgovscan.com…')
   const iati = await getJSON('https://ukgovscan.com/api/foreign-aid')
   console.log('[aid-data] Fetching OECD CRS aggregation from ukgovscan.com…')
   const oecd = await getJSON('https://ukgovscan.com/api/foreign-aid/oecd')
+  console.log('[aid-data] Picking most recent year with substantial reporting…')
+  const { year: currentYear, data: currentYearData } = await pickCurrentYear()
+  console.log(`[aid-data] Using ${currentYear} as "current year"`)
 
   const countriesAll = iati?.filters?.countries ?? []
   const sectorsAll = iati?.filters?.sectors ?? []
   const summary = iati?.summary ?? {}
 
+  // Build a code → currentYear spend lookup
+  const currentYearByCode = new Map()
+  for (const c of currentYearData?.filters?.countries ?? []) {
+    currentYearByCode.set(c.code, {
+      budget: Math.round(c.totalBudget ?? 0),
+      projects: c.projectCount ?? 0,
+    })
+  }
+
   const countries = [...countriesAll]
     .sort((a, b) => (b.totalBudget ?? 0) - (a.totalBudget ?? 0))
     .slice(0, 25)
-    .map((c) => ({
-      code: c.code,
-      name: c.name,
-      budget: Math.round(c.totalBudget ?? 0),
-      projects: c.projectCount ?? 0,
-    }))
+    .map((c) => {
+      const cy = currentYearByCode.get(c.code)
+      return {
+        code: c.code,
+        name: c.name,
+        budget: Math.round(c.totalBudget ?? 0),
+        projects: c.projectCount ?? 0,
+        currentYearBudget: cy?.budget ?? 0,
+        currentYearProjects: cy?.projects ?? 0,
+      }
+    })
 
   const sectors = [...sectorsAll]
     .sort((a, b) => (b.totalBudget ?? 0) - (a.totalBudget ?? 0))
@@ -80,6 +116,12 @@ async function main() {
       countryCount: summary.countryCount ?? 0,
       sectorCount: summary.sectorCount ?? 0,
     },
+    currentYear: {
+      year: currentYear,
+      totalSpentGbp: Math.round(currentYearData?.summary?.totalSpent ?? 0),
+      projectCount: currentYearData?.summary?.projectCount ?? 0,
+      countryCount: currentYearData?.summary?.countryCount ?? 0,
+    },
     oecd: {
       latestYear: oecd?.selectedYear ?? null,
       latestDisbursementGbp: oecd?.summary?.totalDisbursementGbp ?? null,
@@ -96,10 +138,11 @@ async function main() {
 
   writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + '\n')
   console.log(`[aid-data] Wrote ${OUT_PATH}`)
-  console.log(`[aid-data] Top 10 recipient countries (cumulative budget):`)
+  console.log(`[aid-data] Top 10 recipient countries:`)
+  console.log(`[aid-data]   ${'country'.padEnd(40)} ${'cumulative'.padStart(15)}    ${`${currentYear} spend`.padStart(15)}`)
   for (const c of countries.slice(0, 10)) {
     console.log(
-      `[aid-data]   ${c.name.padEnd(40)} £${c.budget.toLocaleString().padStart(15)}  (${c.projects} projects)`
+      `[aid-data]   ${c.name.padEnd(40)} £${c.budget.toLocaleString().padStart(14)}    £${c.currentYearBudget.toLocaleString().padStart(13)}`
     )
   }
   console.log(

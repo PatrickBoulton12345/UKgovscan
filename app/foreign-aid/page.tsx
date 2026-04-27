@@ -117,10 +117,10 @@ const DEVTRACKER_BASE = 'https://devtracker.fcdo.gov.uk'
 // ---------------------------------------------------------------------------
 export default function ForeignAidPage() {
   const [search, setSearch] = useState('')
-  const [sortBy, setSortBy] = useState<'budget' | 'projects' | 'name'>('budget')
+  const [sortBy, setSortBy] = useState<'budget' | 'currentYearBudget' | 'projects' | 'name'>('budget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
-  function toggleSort(field: 'budget' | 'projects' | 'name') {
+  function toggleSort(field: 'budget' | 'currentYearBudget' | 'projects' | 'name') {
     if (sortBy === field) {
       setSortDir(sortDir === 'desc' ? 'asc' : 'desc')
     } else {
@@ -205,7 +205,7 @@ export default function ForeignAidPage() {
       {/* Country breakdown */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="stat-card border-l-4 border-l-lfg-orange">
             <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
               UK ODA {aidData.oecd.latestYear}
@@ -215,6 +215,17 @@ export default function ForeignAidPage() {
             </p>
             <p className="text-xs font-dm text-gray-400 mt-1">
               disbursed (OECD CRS)
+            </p>
+          </div>
+          <div className="stat-card border-l-4 border-l-lfg-green">
+            <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              Spend in {aidData.currentYear.year}
+            </p>
+            <p className="text-3xl font-octarine lowercase">
+              {formatCurrency(aidData.currentYear.totalSpentGbp ?? 0)}
+            </p>
+            <p className="text-xs font-dm text-gray-400 mt-1">
+              {(aidData.currentYear.projectCount ?? 0).toLocaleString()} projects, {aidData.currentYear.countryCount ?? 0} countries (IATI)
             </p>
           </div>
           <div className="stat-card border-l-4 border-l-lfg-blue">
@@ -288,6 +299,19 @@ export default function ForeignAidPage() {
                 </th>
                 <th>
                   <button
+                    onClick={() => toggleSort('currentYearBudget')}
+                    className="flex items-center hover:text-lfg-orange transition-colors"
+                  >
+                    Spend in {aidData.currentYear.year}
+                    <span className="ml-1">
+                      {sortBy === 'currentYearBudget'
+                        ? sortDir === 'desc' ? '↓' : '↑'
+                        : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th>
+                  <button
                     onClick={() => toggleSort('budget')}
                     className="flex items-center hover:text-lfg-orange transition-colors"
                   >
@@ -328,6 +352,9 @@ export default function ForeignAidPage() {
                     </a>
                   </td>
                   <td className="font-dm">{c.projects.toLocaleString()}</td>
+                  <td className="font-dm font-bold text-lfg-green">
+                    {c.currentYearBudget > 0 ? formatCurrency(c.currentYearBudget) : <span className="text-gray-300">—</span>}
+                  </td>
                   <td className="font-dm font-bold text-lfg-orange">
                     {formatCurrency(c.budget)}
                   </td>
