@@ -43,6 +43,16 @@ export default function CountryDetailPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'Implementation' | 'Closed'>('all')
   const [sortBy, setSortBy] = useState<SortField>('budget')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [budgetInfoOpen, setBudgetInfoOpen] = useState(false)
+
+  useEffect(() => {
+    if (!budgetInfoOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setBudgetInfoOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [budgetInfoOpen])
 
   useEffect(() => {
     if (!/^[A-Z]{2}$/.test(code)) {
@@ -214,17 +224,28 @@ export default function CountryDetailPage() {
                   in implementation
                 </p>
               </div>
-              <div className="stat-card border-l-4 border-l-lfg-yellow">
-                <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
+              <button
+                type="button"
+                onClick={() => setBudgetInfoOpen(true)}
+                className="stat-card border-l-4 border-l-lfg-yellow text-left hover:bg-white hover:shadow-md transition-all cursor-pointer"
+                aria-haspopup="dialog"
+              >
+                <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1 flex items-center gap-1">
                   Total budgeted
+                  <span
+                    aria-hidden="true"
+                    className="inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold border border-gray-400 rounded-full text-gray-400"
+                  >
+                    i
+                  </span>
                 </p>
                 <p className="text-3xl font-octarine lowercase">
                   {formatCurrency(totalBudget)}
                 </p>
                 <p className="text-xs font-dm text-gray-400 mt-1">
-                  across all projects
+                  click for methodology
                 </p>
-              </div>
+              </button>
               <div className="stat-card border-l-4 border-l-lfg-blue">
                 <p className="text-sm font-dm text-gray-500 uppercase tracking-wider mb-1">
                   Total disbursed
@@ -386,6 +407,113 @@ export default function CountryDetailPage() {
           </>
         )}
       </div>
+
+      {budgetInfoOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="budget-info-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+          onClick={() => setBudgetInfoOpen(false)}
+        >
+          <div
+            className="relative max-w-2xl w-full bg-white border-2 border-lfg-black p-6 md:p-8 max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setBudgetInfoOpen(false)}
+              aria-label="Close"
+              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center font-dm text-lg hover:text-lfg-orange"
+            >
+              ✕
+            </button>
+            <h2
+              id="budget-info-title"
+              className="font-octarine text-2xl mb-1 lowercase"
+            >
+              total budgeted — methodology
+            </h2>
+            <p className="font-dm text-sm text-gray-500 mb-6 border-b border-gray-200 pb-4">
+              How {formatCurrency(totalBudget)} is calculated for{' '}
+              {data?.countryName ?? code}.
+            </p>
+
+            <div className="font-dm text-sm text-gray-700 space-y-4">
+              <p>
+                This figure is the simple sum of the{' '}
+                <code className="bg-gray-100 px-1 py-0.5 text-xs">
+                  budget
+                </code>{' '}
+                field across every UK aid project that the International Aid
+                Transparency Initiative (IATI) has tagged for{' '}
+                {data?.countryName ?? code} —{' '}
+                {(data?.projects.length ?? 0).toLocaleString()} projects in
+                total.
+              </p>
+
+              <div>
+                <p className="font-bold mb-1">What's included</p>
+                <ul className="list-disc list-inside space-y-1 text-gray-600">
+                  <li>
+                    Every project, regardless of status (active, closed,
+                    pipeline)
+                  </li>
+                  <li>
+                    The full lifetime budget of multi-year programmes — every
+                    year added together, not just this year's portion
+                  </li>
+                  <li>
+                    Programmes going back to whenever IATI began publishing
+                    them (typically the early 2010s)
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-bold mb-1">Important caveat</p>
+                <p className="text-gray-600">
+                  Multi-country programmes (e.g. British Council, Chevening
+                  Scholarships, regional investment funds) appear in every
+                  recipient country's project list at their{' '}
+                  <em>full programme budget</em>, not apportioned by the
+                  country's share. For countries that host many global
+                  programmes, this can inflate the total significantly.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold mb-1">What it isn't</p>
+                <ul className="list-disc list-inside space-y-1 text-gray-600">
+                  <li>
+                    It isn't current-year spend (see "Spend in [year]" on the
+                    main foreign aid page for that)
+                  </li>
+                  <li>
+                    It isn't actually-disbursed money — that's the "Total
+                    disbursed" stat next to it (sum of the{' '}
+                    <code className="bg-gray-100 px-1 py-0.5 text-xs">
+                      disbursement
+                    </code>{' '}
+                    field per project)
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-2 border-t border-gray-200">
+                <p className="text-xs text-gray-400">
+                  Source: ukgovscan.com aggregation of the IATI Datastore,
+                  reporting-org{' '}
+                  <code className="bg-gray-100 px-1 py-0.5 text-xs">
+                    GB-GOV-1
+                  </code>{' '}
+                  (FCDO).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
