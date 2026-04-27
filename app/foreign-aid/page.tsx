@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { formatCurrency } from '@/lib/utils'
 import aidData from '@/lib/aid-data.json'
 
@@ -320,15 +321,13 @@ export default function ForeignAidPage() {
                     </span>
                   </td>
                   <td className="font-dm font-bold">
-                    <a
-                      href={`${DEVTRACKER_BASE}/countries/${c.code}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href={`/foreign-aid/${c.code}`}
                       className="hover:text-lfg-orange hover:underline transition-colors"
-                      title={`View all UK aid projects in ${c.name} on FCDO DevTracker`}
+                      title={`View all UK aid projects in ${c.name}`}
                     >
-                      {c.name} <span className="text-xs text-gray-400">↗</span>
-                    </a>
+                      {c.name} <span className="text-xs text-gray-400">→</span>
+                    </Link>
                   </td>
                   <td className="font-dm">{c.projects.toLocaleString()}</td>
                   <td className="font-dm font-bold text-lfg-green">
