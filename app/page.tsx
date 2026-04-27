@@ -84,12 +84,6 @@ export default async function HomePage() {
               accent: 'border-l-lfg-orange',
             },
             {
-              title: 'map',
-              desc: 'See contracts geographically. Explore procurement by region.',
-              href: '/map',
-              accent: 'border-l-lfg-yellow',
-            },
-            {
               title: 'councils',
               desc: 'Local authority finances, contracts, and transparency data.',
               href: '/councils',
