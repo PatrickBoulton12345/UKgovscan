@@ -44,6 +44,7 @@ const SPOTLIGHT = [
     budget: 68_160,
     tag: '£68k teaching governance to the CCP',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-3-PAP-CNF-002335',
   },
   {
     title: 'Prevention of Violence against Women and Girls through Football',
@@ -51,6 +52,7 @@ const SPOTLIGHT = [
     budget: 193_494,
     tag: '£193k using football to prevent domestic violence',
     source: 'IATI / FCDO',
+    iatiId: 'GB-1-204864',
   },
   {
     title: 'ARM: Strengthening UK-Armenia fashion ties in the framework of Yerevan Fashion Week',
@@ -58,6 +60,7 @@ const SPOTLIGHT = [
     budget: 34_877,
     tag: '£35k of aid money on Fashion Week',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-1-400223-403',
   },
   {
     title: 'Support to Theatre for Change',
@@ -65,6 +68,7 @@ const SPOTLIGHT = [
     budget: 218_810,
     tag: '£219k on theatre as international development',
     source: 'IATI / FCDO',
+    iatiId: 'GB-1-114193-102',
   },
   {
     title: 'Women in Central Bougainville trained in chocolate making and cocoa value addition',
@@ -72,6 +76,7 @@ const SPOTLIGHT = [
     budget: 10_000,
     tag: '£10k teaching chocolate making in the Pacific',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-1-400808-402',
   },
   {
     title: 'Nature Park YUS Tree Kangaroo Conservation Coffee',
@@ -79,6 +84,7 @@ const SPOTLIGHT = [
     budget: 10_000,
     tag: '£10k on tree kangaroo coffee',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-1-400808-404',
   },
   {
     title: 'Social Media Tracking for Ghana 2012 Elections',
@@ -86,6 +92,7 @@ const SPOTLIGHT = [
     budget: 24_570,
     tag: '£25k monitoring Ghanaian tweets',
     source: 'IATI / FCDO',
+    iatiId: 'GB-1-202477-112',
   },
   {
     title: 'ZEG Tbilisi Storytelling Festival',
@@ -93,6 +100,7 @@ const SPOTLIGHT = [
     budget: 19_710,
     tag: '£20k of aid on a Georgian storytelling festival',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-1-400223-401',
   },
   {
     title: 'Inclusion through Football: Using soft power to promote UK values of diversity and inclusion',
@@ -100,6 +108,7 @@ const SPOTLIGHT = [
     budget: 2_535,
     tag: '£2.5k — "soft power" via football',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-1-400222-403',
   },
   {
     title: 'Departmental Central Administrative Costs of ODA Programme',
@@ -107,6 +116,7 @@ const SPOTLIGHT = [
     budget: 47,
     tag: '£47 — the UK\'s smallest foreign aid project',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-3-PF-EDU-911001',
   },
   {
     title: 'Supporting China\'s strategic development of its technology and satellite industries to promote international innovation',
@@ -114,6 +124,7 @@ const SPOTLIGHT = [
     budget: 0,
     tag: 'UK aid helping China build its tech and satellite industries',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-3-PPF-CHP-000183',
   },
   {
     title: 'Fostering innovation and critical thinking through improved English proficiency among school children in Malaysia using poetry',
@@ -121,8 +132,11 @@ const SPOTLIGHT = [
     budget: 12_712,
     tag: '£13k teaching Malaysian children English through poetry',
     source: 'IATI / FCDO',
+    iatiId: 'GB-GOV-3-PAP-MAK-002271',
   },
 ]
+
+const DEVTRACKER_BASE = 'https://devtracker.fcdo.gov.uk'
 
 // ---------------------------------------------------------------------------
 // Page
@@ -188,11 +202,14 @@ export default function ForeignAidPage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {SPOTLIGHT.map((s, i) => (
-              <div
+              <a
                 key={i}
-                className="stat-card border-l-4 border-l-lfg-orange group flex flex-col gap-2"
+                href={`${DEVTRACKER_BASE}/programme/${s.iatiId}/summary`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="stat-card border-l-4 border-l-lfg-orange group flex flex-col gap-2 hover:bg-white hover:shadow-md transition-all"
               >
-                <p className="font-dm font-bold text-sm leading-tight">
+                <p className="font-dm font-bold text-sm leading-tight group-hover:text-lfg-orange">
                   {s.title.length > 80 ? s.title.slice(0, 80) + '…' : s.title}
                 </p>
                 <p className="text-xs font-dm text-gray-400">{s.country}</p>
@@ -204,7 +221,10 @@ export default function ForeignAidPage() {
                 <p className="text-xs font-dm font-bold text-gray-600 mt-auto pt-2 border-t border-gray-100">
                   {s.tag}
                 </p>
-              </div>
+                <p className="text-[10px] font-dm text-gray-400 uppercase tracking-wider">
+                  View on FCDO DevTracker ↗
+                </p>
+              </a>
             ))}
           </div>
         </div>
@@ -313,7 +333,17 @@ export default function ForeignAidPage() {
                       {i + 1}
                     </span>
                   </td>
-                  <td className="font-dm font-bold">{c.name}</td>
+                  <td className="font-dm font-bold">
+                    <a
+                      href={`${DEVTRACKER_BASE}/countries/${c.code}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-lfg-orange hover:underline transition-colors"
+                      title={`View all UK aid projects in ${c.name} on FCDO DevTracker`}
+                    >
+                      {c.name} <span className="text-xs text-gray-400">↗</span>
+                    </a>
+                  </td>
                   <td className="font-dm">{c.projects.toLocaleString()}</td>
                   <td className="font-dm font-bold text-lfg-orange">
                     {formatCurrency(c.budget)}
@@ -348,6 +378,16 @@ export default function ForeignAidPage() {
             &amp; Development Office (FCDO). Budget figures represent
             project-level allocations and may differ from final disbursements.
             Country totals exclude global/multi-country programmes.
+            Click any country or project to view it on the official FCDO{' '}
+            <a
+              href="https://devtracker.fcdo.gov.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-lfg-orange"
+            >
+              DevTracker
+            </a>
+            .
           </p>
         </div>
       </div>
